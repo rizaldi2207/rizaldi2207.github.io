@@ -1,20 +1,71 @@
 ---
+import Layout from "../layouts/Layout.astro";
+import BlogCard from "../components/BlogCard.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
 
+const posts = (await getCollection("blog")).sort(
+	(a: CollectionEntry<"blog">, b: CollectionEntry<"blog">) =>
+		b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<a href="/">Home</a>
-        <a href="/about/">About</a>
-		<a href="/blogs/">Blogs</a>
-		<h1>Astro</h1>
-		<h1>My First Astro Page</h1>
-	</body>
-</html>
+<Layout
+	title="Astro Blog - Minimalist Indonesian Blog"
+	description="A simple, clean blog built with Astro."
+>
+	<section class="py-12 md:py-20 px-6 md:px-12 max-w-7xl mx-auto">
+		<div class="max-w-3xl mb-16 md:mb-24">
+			<h1
+				class="text-4xl md:text-6xl font-serif font-bold text-gray-900 mb-6 leading-tight"
+			>
+				Menjelajahi Teknologi & <span class="text-primary italic"
+					>Desain</span
+				> Modern
+			</h1>
+			<p
+				class="text-xl md:text-2xl text-gray-600 leading-relaxed font-serif"
+			>
+				Kumpulan pemikiran, tutorial, dan inspirasi seputar pengembangan
+				web, desain antarmuka, dan teknologi masa kini dalam bahasa
+				Indonesia.
+			</p>
+
+			<div class="mt-8">
+				<a
+					href="#posts"
+					class="inline-flex items-center text-primary font-medium hover:text-primary-hover transition-colors text-lg group"
+				>
+					Baca Artikel Terbaru
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke-width="2"
+						stroke="currentColor"
+						class="w-5 h-5 ml-2 transform group-hover:translate-y-1 transition-transform"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3"></path>
+					</svg>
+				</a>
+			</div>
+		</div>
+
+		<div id="posts" class="flex flex-col gap-0">
+			{
+				posts.map((post) => (
+					<BlogCard
+						title={post.data.title}
+						description={post.data.description}
+						pubDate={post.data.pubDate}
+						image={post.data.heroImage || "/blog-placeholder-1.jpg"}
+						slug={post.slug}
+						tags={post.data.tags}
+					/>
+				))
+			}
+		</div>
+	</section>
+</Layout>
