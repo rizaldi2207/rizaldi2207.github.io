@@ -22,7 +22,7 @@ const formattedDate = post.data.pubDate.toLocaleDateString("id-ID", {
 ---
 
 <Layout title={post.data.title} description={post.data.description}>
-    <article class="py-12 md:py-20 px-6 md:px-12">
+    <article class="py-12 md:py-20 px-6 md:px-12 max-w-7xl mx-auto">
         <!-- Hero Section -->
         <div class="max-w-4xl mx-auto mb-12 md:mb-16 text-center">
             <div class="flex flex-wrap justify-center gap-2 mb-6">
@@ -58,7 +58,7 @@ const formattedDate = post.data.pubDate.toLocaleDateString("id-ID", {
                     <img
                         src={post.data.heroImage}
                         alt={post.data.title}
-                        class="w-full aspect-video md:aspect-[21/9] object-cover rounded-xl shadow-sm"
+                        class="w-full aspect-video md:aspect-[16/9] object-cover rounded-xl shadow-sm"
                     />
                 )
             }
@@ -94,4 +94,72 @@ const formattedDate = post.data.pubDate.toLocaleDateString("id-ID", {
             </a>
         </div>
     </article>
+    <!-- Image Lightbox -->
+     <div id="image-lightbox" class="lightbox">
+        <img id="lightbox-img" alt="Preview" />
+    </div>
+    <style>
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            z-index: 50;
+        }
+
+        .lightbox.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            cursor: zoom-out;
+        }
+
+        /* Cursor zoom untuk gambar artikel */
+        article img {
+            cursor: zoom-in;
+        }
+    </style>
+
+    <script type="module">
+        const lightbox = document.getElementById("image-lightbox");
+        const lightboxImg = document.getElementById("lightbox-img");
+
+        // Ambil SEMUA gambar di artikel (hero + konten markdown)
+        const images = document.querySelectorAll("article img");
+
+        images.forEach((img) => {
+            img.addEventListener("click", () => {
+            lightboxImg.src = img.src;
+            lightbox.classList.add("open");
+            document.body.style.overflow = "hidden";
+            });
+        });
+
+        // Tutup saat klik background
+        lightbox.addEventListener("click", () => {
+            lightbox.classList.remove("open");
+            lightboxImg.src = "";
+            document.body.style.overflow = "";
+        });
+
+        // Tutup dengan ESC
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") {
+            lightbox.classList.remove("open");
+            lightboxImg.src = "";
+            document.body.style.overflow = "";
+            }
+        });
+    </script>
 </Layout>
