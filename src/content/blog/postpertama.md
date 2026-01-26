@@ -2,7 +2,7 @@
 title: 'My First Blog Post'
 description: 'This is the first post of my new Astro blog.'
 pubDate: '2024-01-15'
-heroImage: '/src/assets/Ft6A8IlacAAKAzY.jpg'
+heroImage: '/assets/Ft6A8IlacAAKAzY.jpg'
 tags: ['Teknologi', 'Tutorial']
 ---
 
