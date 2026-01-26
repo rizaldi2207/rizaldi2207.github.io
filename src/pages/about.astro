@@ -1,22 +1,245 @@
 ---
+import Layout from "../layouts/Layout.astro";
 
+const team = [
+	{
+		name: "Thomson Rihad Dodi Malau",
+		role: "Founder & System Engineer",
+		image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop",
+		description: "System Engineer dengan pengalaman 6+ tahun dalam membangun infrastruktur yang aman dan scalable.",
+	},
+	{
+		name: "Zahra Nabila Putri",
+		role: "Lead Developer",
+		image: "/src/assets/Screenshot 2026-01-26 150736.png",
+		description: "Full-stack developer yang passionate tentang clean code dan best practices.",
+	},
+	{
+		name: "Rizaldi Sanjaya",
+		role: "DevSecOps Engineer",
+		image: "/src/assets/Screenshot 2026-01-26 151340.png",
+		description: "Spesialis dalam CI/CD pipeline dan security automation untuk aplikasi modern.",
+	},
+	{
+		name: "Yunita Haris Permana Putri",
+		role: "Content Writer",
+		image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
+		description: "Technical writer yang mengubah konsep kompleks menjadi konten yang mudah dipahami.",
+	},
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-        <a href="/">Home</a>
-        <a href="/about/">About</a>
-        <a href="/blogs/">Blogs</a>
-		<h1>About</h1>
-		<h2>Nama ku adalah Rizaldi, aku seorang engineer dan ingin menjadi penulis</h2>
-        <p>I am working through Astro's introductory tutorial. This is the second page on my website, and it's the first one I built myself!</p>
-        <p>This site will update as I complete more of the tutorial, so keep checking back and see how my journey is going!</p>
-	</body>
-</html>
+<Layout
+	title="Tentang Kami - Appsecmonarch"
+	description="Pelajari lebih lanjut tentang Appsecmonarch, misi kami, dan tim yang bekerja untuk membawa keamanan aplikasi ke level berikutnya."
+>
+	<!-- Hero Section -->
+	<section class="py-12 md:py-20 px-6 md:px-12 max-w-7xl mx-auto">
+		<div class="max-w-3xl mx-auto text-center">
+			<h1
+				class="text-4xl md:text-6xl font-serif font-bold text-gray-900 mb-6 leading-tight"
+			>
+				Tentang <span class="text-primary italic">Appsecmonarch</span>
+			</h1>
+			<p
+				class="text-xl md:text-2xl text-gray-600 leading-relaxed font-serif"
+			>
+				Membangun ekosistem di mana Security Engineer dan Developer bekerja bersama untuk menciptakan aplikasi yang aman dan tangguh.
+			</p>
+		</div>
+	</section>
+
+	<!-- Tentang Kami Section -->
+	<section class="py-12 md:py-20 px-6 md:px-12 max-w-7xl mx-auto bg-gray-50">
+		<div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+			<div>
+				<img
+					src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80"
+					alt="Team Collaboration"
+					class="rounded-lg shadow-lg w-full h-auto object-cover"
+				/>
+			</div>
+			<div>
+				<h2
+					class="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-6"
+				>
+					Tentang <span class="text-primary italic">Kami</span>
+				</h2>
+				<div class="prose prose-lg max-w-none">
+					<p class="text-gray-700 leading-relaxed mb-4">
+						Appsecmonarch adalah komunitas yang didirikan dengan visi untuk menjembatani kesenjangan antara keamanan dan pengembangan aplikasi. Kami percaya bahwa keamanan bukan sekadar fitur tambahan, melainkan fondasi dari setiap aplikasi yang berkualitas.
+					</p>
+					<p class="text-gray-700 leading-relaxed mb-4">
+						Berawal dari pengalaman bertahun-tahun dalam industri teknologi, kami melihat kebutuhan akan platform yang tidak hanya berbagi pengetahuan teknis, tetapi juga membangun kultur keamanan yang kuat dalam tim pengembangan.
+					</p>
+					<p class="text-gray-700 leading-relaxed">
+						Melalui artikel, tutorial, dan studi kasus yang kami bagikan, kami berkomitmen untuk memberdayakan developer dan security engineer di Indonesia dengan pengetahuan praktis dan best practices yang dapat langsung diterapkan.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Misi Kami Section -->
+	<section class="py-12 md:py-20 px-6 md:px-12 max-w-7xl mx-auto">
+		<div class="text-center mb-12 md:mb-16">
+			<h2
+				class="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-6"
+			>
+				Misi <span class="text-primary italic">Kami</span>
+			</h2>
+			<p class="text-xl text-gray-600 max-w-3xl mx-auto">
+				Kami berkomitmen untuk menciptakan dampak positif dalam ekosistem keamanan aplikasi Indonesia
+			</p>
+		</div>
+
+		<div class="grid md:grid-cols-3 gap-8">
+			<!-- Mission 1 -->
+			<div class="bg-white p-8 rounded-lg border-2 border-gray-100 hover:border-primary transition-all">
+				<div class="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke-width="2"
+						stroke="currentColor"
+						class="w-8 h-8 text-primary"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"
+						></path>
+					</svg>
+				</div>
+				<h3 class="text-xl font-serif font-bold text-gray-900 mb-3">
+					Edukasi Berkualitas
+				</h3>
+				<p class="text-gray-600 leading-relaxed">
+					Menyediakan konten edukasi yang mendalam dan praktis tentang keamanan aplikasi dalam bahasa Indonesia yang mudah dipahami.
+				</p>
+			</div>
+
+			<!-- Mission 2 -->
+			<div class="bg-white p-8 rounded-lg border-2 border-gray-100 hover:border-primary transition-all">
+				<div class="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke-width="2"
+						stroke="currentColor"
+						class="w-8 h-8 text-primary"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"
+						></path>
+					</svg>
+				</div>
+				<h3 class="text-xl font-serif font-bold text-gray-900 mb-3">
+					Membangun Komunitas
+				</h3>
+				<p class="text-gray-600 leading-relaxed">
+					Menciptakan ruang kolaborasi antara Security Engineer dan Developer untuk berbagi pengalaman dan best practices.
+				</p>
+			</div>
+
+			<!-- Mission 3 -->
+			<div class="bg-white p-8 rounded-lg border-2 border-gray-100 hover:border-primary transition-all">
+				<div class="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke-width="2"
+						stroke="currentColor"
+						class="w-8 h-8 text-primary"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"
+						></path>
+					</svg>
+				</div>
+				<h3 class="text-xl font-serif font-bold text-gray-900 mb-3">
+					Meningkatkan Keamanan
+				</h3>
+				<p class="text-gray-600 leading-relaxed">
+					Mendorong praktik secure coding dan security-first mindset dalam setiap tahap pengembangan aplikasi.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- Tim Kami Section -->
+	<section class="py-12 md:py-20 px-6 md:px-12 max-w-7xl mx-auto bg-gray-50">
+		<div class="text-center mb-12 md:mb-16">
+			<h2
+				class="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-6"
+			>
+				Tim <span class="text-primary italic">Kami</span>
+			</h2>
+			<p class="text-xl text-gray-600 max-w-3xl mx-auto">
+				Bertemu dengan orang-orang di balik Appsecmonarch yang berdedikasi untuk membawa perubahan positif
+			</p>
+		</div>
+
+		<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+			{
+				team.map((member) => (
+					<div class="group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-all">
+						<div class="aspect-square overflow-hidden">
+							<img
+								src={member.image}
+								alt={member.name}
+								class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+							/>
+						</div>
+						<div class="p-6">
+							<h3 class="text-xl font-serif font-bold text-gray-900 mb-1">
+								{member.name}
+							</h3>
+							<p class="text-primary font-medium mb-3 italic">
+								{member.role}
+							</p>
+							<p class="text-gray-600 text-sm leading-relaxed">
+								{member.description}
+							</p>
+						</div>
+					</div>
+				))
+			}
+		</div>
+	</section>
+
+	<!-- CTA Section -->
+	<section class="py-12 md:py-20 px-6 md:px-12 max-w-7xl mx-auto">
+		<div class="bg-primary/5 rounded-2xl p-8 md:p-12 text-center">
+			<h2
+				class="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-4"
+			>
+				Tertarik Bergabung?
+			</h2>
+			<p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+				Mari bersama-sama membangun ekosistem keamanan aplikasi yang lebih baik di Indonesia
+			</p>
+			<div class="flex flex-col sm:flex-row gap-4 justify-center">
+				<a
+					href="/contact"
+					class="inline-block px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition-all"
+				>
+					Hubungi Kami
+				</a>
+				<a
+					href="/blog"
+					class="inline-block px-8 py-3 bg-white text-primary border-2 border-primary font-semibold rounded-lg hover:bg-primary hover:text-white transition-all"
+				>
+					Baca Blog Kami
+				</a>
+			</div>
+		</div>
+	</section>
+</Layout>

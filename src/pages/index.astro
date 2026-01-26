@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import BlogCard from "../components/BlogCard.astro";
+import FeaturedBlogCard from "../components/FeaturedBlogCard.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
 
 const posts = (await getCollection("blog")).sort(
@@ -13,29 +14,20 @@ const posts = (await getCollection("blog")).sort(
 	title="Astro Blog - Minimalist Indonesian Blog"
 	description="A simple, clean blog built with Astro."
 >
-	<section class="py-12 md:py-20 px-6 md:px-12 max-w-7xl mx-auto">
-		<div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-			<div class="flex-1 max-w-3xl">
-				<h1
-					class="text-4xl md:text-6xl font-serif font-bold text-gray-900 mb-6 leading-tight"
+	<section class="py-12 md:py-20 px-6 md:px-12 max-w-7xl mx-auto bg-gray-50">
+		<div class="text-center gap-8 md:gap-12">
+			<h1
+				class="text-4xl md:text-6xl font-serif font-bold text-gray-900 mb-6 leading-tight"
+			>
+				Learn, Share & <span class="text-primary italic"
+					>Secure</span
 				>
-					Learn, Share & <span class="text-primary italic"
-						>Secure</span
-					>
-				</h1>
-				<p
-					class="text-xl md:text-2xl text-gray-600 leading-relaxed font-serif"
-				>
-					Ketika Security Engineer berstrategi dan Developer mengeksekusi, lahirlah aplikasi yang aman dan tangguh.
-				</p>
-			</div>
-			<div class="flex-1 w-full md:w-auto">
-				<img 
-					src="/src/assets/securityawareness-removebg-preview.png"
-					alt="Security and Development" 
-					class="w-full h-auto object-cover"
-				/>
-			</div>
+			</h1>
+			<p
+				class="text-xl md:text-2xl text-gray-600 leading-relaxed font-serif"
+			>
+				Ketika Security Engineer berstrategi dan Developer mengeksekusi, lahirlah aplikasi yang aman dan tangguh.
+			</p>
 		</div>
 	</section>
 
@@ -45,23 +37,92 @@ const posts = (await getCollection("blog")).sort(
 				<h1
 					class="text-2xl md:text-3xl font-serif font-bold text-gray-900 mb-3 leading-tight group-hover:text-primary transition-colors"
 				>
-					Siapa <span class="text-primary italic"
-						>Appsecmonarch</span
+					Apa itu Application <span class="text-primary italic"
+						>Security</span
 					>?
 				</h1>
 				<p
 					class="mx-auto prose prose-lg prose-headings:font-serif prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg"
 				>
-					Komunitas AppSec adalah sebuah ekosistem di mana Security Engineer dan Developer bekerja sama secara sinergis untuk melindungi Aplikasi dan Penggunanya dari segala ancaman siber. Kolaborasi inilah yang menjadi inti dari komunitas AppSec. Sinergi antara strategi (oleh Security Engineer) dan eksekusi (oleh Developer) adalah kunci untuk membangun aplikasi yang tidak hanya berfungsi, tetapi juga tahan banting dan aman.
+					Praktik dan proses untuk melindungi aplikasi dari berbagai ancaman siber. Ini bukan cuma tentang membuat aplikasi yang berfungsi, tapi juga memastikan aplikasi itu aman dari serangan yang bisa mengeksploitasi kerentanannya. Dengan mengintegrasikan keamanan ke dalam setiap tahap pengembangan aplikasi, dari perencanaan hingga peluncuran, kita bisa mengurangi risiko kebocoran data, pencurian informasi, dan gangguan layanan yang dapat merugikan pengguna dan bisnis.
 				</p>
 			</div>
 			<div class="flex-1 w-full md:w-auto">
 				<img 
-					src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80" 
+					src="/src/assets/securecode2.png" 
 					alt="AppSec Community" 
-					class="rounded-lg shadow-lg w-full h-auto object-cover"
+					class="w-full h-auto object-cover"
 				/>
 			</div>
+		</div>
+	</section>
+
+	<section class="py-12 md:py-20 px-6 md:px-12 max-w-7xl mx-auto">
+		<div class="grid md:grid-cols-2 gap-8 md:gap-12">
+			<div class="flex-1">
+				<h2
+					class="text-2xl md:text-3xl font-serif font-bold text-gray-900 mb-4 leading-tight"
+				>
+					Peran <span class="text-primary italic">Security</span> Engineer
+				</h2>
+				<p class="text-lg text-gray-700 leading-relaxed">
+					AppSec adalah area spesifik dari keamanan siber yang fokus pada aplikasi. Security Engineer bertanggung jawab untuk menemukan, menguji, dan membantu developer memperbaiki kerentanan. Security Engineer adalah penjaga gerbang yang memastikan aplikasi aman sebelum dirilis.
+				</p>
+			</div>
+			<div class="flex-1">
+				<h2
+					class="text-2xl md:text-3xl font-serif font-bold text-gray-900 mb-4 leading-tight"
+				>
+					Peran <span class="text-primary italic">Developer</span>
+				</h2>
+				<p class="text-lg text-gray-700 leading-relaxed">
+					Developer adalah eksekutor yang mengimplementasikan strategi keamanan ke dalam kode. Mereka memastikan setiap baris kode ditulis dengan prinsip secure coding, mengintegrasikan best practices, dan melakukan testing secara menyeluruh. Tanpa eksekusi yang baik, strategi terbaik sekalipun tidak akan berguna.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="py-12 md:py-20 px-6 md:px-12 max-w-7xl mx-auto bg-gray-50">
+		<div class="mb-8 md:mb-12 text-center">
+			<h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-4">
+				Artikel <span class="text-primary italic">Terbaru</span>
+			</h2>
+			<p class="text-lg text-gray-600">
+				Baca tulisan terbaru seputar aplikasi keamanan dan pengembangan
+			</p>
+		</div>
+		<div class="grid md:grid-cols-3 gap-6 md:gap-8">
+			{posts.slice(0, 3).map((post) => (
+				<FeaturedBlogCard 
+					title={post.data.title}
+					description={post.data.description}
+					pubDate={post.data.pubDate}
+					image={post.data.heroImage || "/blog-placeholder-1.jpg"}
+					slug={post.slug}
+					tags={post.data.tags} 
+				/>
+			))}
+		</div>
+		<div class="mt-8 text-right">
+			<a
+				href="/blog"
+				class="inline-flex items-center text-primary font-medium hover:text-primary-hover transition-colors text-lg group"
+			>
+				Baca Semua Artikel
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="2"
+					stroke="currentColor"
+					class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path>
+				</svg>
+			</a>
 		</div>
 	</section>
 </Layout>

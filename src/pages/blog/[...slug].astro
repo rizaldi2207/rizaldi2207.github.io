@@ -28,9 +28,9 @@ const formattedDate = post.data.pubDate.toLocaleDateString("id-ID", {
             <div class="flex flex-wrap justify-center gap-2 mb-6">
                 {
                     post.data.tags?.map((tag: string) => (
-                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors">
+                        <a href={`/tags/${tag}`} class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors">
                             #{tag}
-                        </span>
+                        </a>
                     ))
                 }
             </div>

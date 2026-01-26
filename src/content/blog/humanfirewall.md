@@ -2,7 +2,7 @@
 title: 'Membangun Benteng Pertahanan Digital: Peran Vital Human Firewall'
 description: 'Ketika kesadaran terhadap security pada dunia digital lebih membantu seseorang dalam mencegah kejahatan cyber'
 pubDate: '2026-01-25'
-heroImage: '/src/assets/securityawareness.png'
+heroImage: '/src/assets/Defining-cybersecurity-awareness.webp'
 tags: ['Cybersecurity']
 ---
 
