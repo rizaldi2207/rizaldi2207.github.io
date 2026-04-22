@@ -2,7 +2,7 @@
 title: 'AI dalam Cybersecurity: Senjata Terbaik Sekaligus Ancaman Terbesar'
 description: 'Kecerdasan buatan mengubah lanskap keamanan siber secara fundamental. Pelajari bagaimana AI menjadi pelindung andal sekaligus alat berbahaya di tangan yang salah.'
 pubDate: '2026-04-22'
-heroImage: '/assets/ai-cybersecurity.png'
+heroImage: '/assets/ai-powered-cybersecurity-solutions.jpg'
 tags: ['AI', 'Cybersecurity', 'Machine Learning', 'Threat Intelligence', 'InfoSec']
 ---
  
