@@ -2,7 +2,7 @@
 title: 'SAST dan DAST: Dua Pilar Keamanan Aplikasi yang Wajib Dipahami Developer dan IT Security'
 description: 'Pahami perbedaan, cara kerja, dan kapan menggunakan SAST (Static Application Security Testing) dan DAST (Dynamic Application Security Testing) dalam siklus pengembangan perangkat lunak modern.'
 pubDate: '2026-04-23'
-heroImage: '/assets/sast-dast-cover.svg'
+heroImage: '/assets/sast-dast-hero.svg'
 tags: ['security', 'appsec', 'sast', 'dast', 'devsecops', 'developer', 'it-security']
 ---
 
