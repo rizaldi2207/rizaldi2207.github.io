@@ -1,0 +1,237 @@
+<svg width="1200" height="630" viewBox="0 0 680 380" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>SAST dan DAST Hero Image</title>
+  <desc>Ilustrasi konsep SAST dan DAST dalam keamanan aplikasi</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <style>
+      .bg-main { fill: #0d1117; }
+      .bg-card { fill: #161b22; stroke: #30363d; stroke-width: 0.5; }
+      .bg-card-sast { fill: #0d2137; stroke: #1f6feb; stroke-width: 0.5; }
+      .bg-card-dast { fill: #1a0d0d; stroke: #da3633; stroke-width: 0.5; }
+      .code-line { stroke: #3fb950; stroke-width: 1.5; stroke-linecap: round; opacity: 0.7; }
+      .code-line-dim { stroke: #3fb950; stroke-width: 1.5; stroke-linecap: round; opacity: 0.2; }
+      .code-bug { stroke: #f85149; stroke-width: 2; stroke-linecap: round; opacity: 0.9; }
+      .scan-beam { stroke: #388bfd; stroke-width: 1; opacity: 0.4; }
+      .attack-beam { stroke: #f85149; stroke-width: 1; opacity: 0.4; }
+      .label-sast { fill: #388bfd; font-family: 'SF Mono', Consolas, monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; }
+      .label-dast { fill: #f85149; font-family: 'SF Mono', Consolas, monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; }
+      .title-main { fill: #e6edf3; font-family: 'SF Mono', Consolas, monospace; font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+      .subtitle { fill: #7d8590; font-family: 'SF Mono', Consolas, monospace; font-size: 11px; }
+      .vs-text { fill: #7d8590; font-family: 'SF Mono', Consolas, monospace; font-size: 13px; font-weight: 600; }
+      .tag-sast { fill: #1f6feb22; stroke: #388bfd; stroke-width: 0.5; }
+      .tag-dast { fill: #da363322; stroke: #f85149; stroke-width: 0.5; }
+      .tag-text-sast { fill: #388bfd; font-family: 'SF Mono', Consolas, monospace; font-size: 9px; font-weight: 600; }
+      .tag-text-dast { fill: #f85149; font-family: 'SF Mono', Consolas, monospace; font-size: 9px; font-weight: 600; }
+      .dot { fill: #30363d; }
+      .dot-active-sast { fill: #388bfd; opacity: 0.8; }
+      .dot-active-dast { fill: #f85149; opacity: 0.8; }
+      .divider { stroke: #21262d; stroke-width: 1; }
+      .pipeline-node { fill: #21262d; stroke: #30363d; stroke-width: 0.5; }
+      .pipeline-node-active { fill: #1f3a1f; stroke: #3fb950; stroke-width: 0.5; }
+      .pipeline-text { fill: #7d8590; font-family: 'SF Mono', Consolas, monospace; font-size: 9px; }
+      .pipeline-text-active { fill: #3fb950; font-family: 'SF Mono', Consolas, monospace; font-size: 9px; }
+      .connector { stroke: #30363d; stroke-width: 0.8; fill: none; }
+      .connector-active { stroke: #3fb950; stroke-width: 0.8; fill: none; stroke-dasharray: 3,2; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="680" height="380" class="bg-main" rx="12"/>
+
+  <!-- Subtle grid dots background -->
+  <g opacity="0.15">
+    <circle cx="40" cy="40" r="1" class="dot"/>
+    <circle cx="80" cy="40" r="1" class="dot"/>
+    <circle cx="120" cy="40" r="1" class="dot"/>
+    <circle cx="160" cy="40" r="1" class="dot"/>
+    <circle cx="200" cy="40" r="1" class="dot"/>
+    <circle cx="240" cy="40" r="1" class="dot"/>
+    <circle cx="280" cy="40" r="1" class="dot"/>
+    <circle cx="320" cy="40" r="1" class="dot"/>
+    <circle cx="360" cy="40" r="1" class="dot"/>
+    <circle cx="400" cy="40" r="1" class="dot"/>
+    <circle cx="440" cy="40" r="1" class="dot"/>
+    <circle cx="480" cy="40" r="1" class="dot"/>
+    <circle cx="520" cy="40" r="1" class="dot"/>
+    <circle cx="560" cy="40" r="1" class="dot"/>
+    <circle cx="600" cy="40" r="1" class="dot"/>
+    <circle cx="640" cy="40" r="1" class="dot"/>
+    <circle cx="40" cy="80" r="1" class="dot"/>
+    <circle cx="80" cy="80" r="1" class="dot"/>
+    <circle cx="120" cy="80" r="1" class="dot"/>
+    <circle cx="160" cy="80" r="1" class="dot"/>
+    <circle cx="200" cy="80" r="1" class="dot"/>
+    <circle cx="240" cy="80" r="1" class="dot"/>
+    <circle cx="280" cy="80" r="1" class="dot"/>
+    <circle cx="320" cy="80" r="1" class="dot"/>
+    <circle cx="360" cy="80" r="1" class="dot"/>
+    <circle cx="400" cy="80" r="1" class="dot"/>
+    <circle cx="440" cy="80" r="1" class="dot"/>
+    <circle cx="480" cy="80" r="1" class="dot"/>
+    <circle cx="520" cy="80" r="1" class="dot"/>
+    <circle cx="560" cy="80" r="1" class="dot"/>
+    <circle cx="600" cy="80" r="1" class="dot"/>
+    <circle cx="640" cy="80" r="1" class="dot"/>
+  </g>
+
+  <!-- Title area -->
+  <text x="340" y="48" class="title-main" text-anchor="middle">Application Security Testing</text>
+  <text x="340" y="68" class="subtitle" text-anchor="middle">Panduan SAST &amp; DAST untuk Developer dan IT Security</text>
+
+  <!-- Divider line -->
+  <line x1="40" y1="84" x2="640" y2="84" class="divider"/>
+
+  <!-- ===== LEFT PANEL: SAST ===== -->
+  <rect x="40" y="98" width="280" height="230" rx="8" class="bg-card-sast"/>
+
+  <!-- SAST Label badge -->
+  <rect x="52" y="110" width="48" height="16" rx="3" class="tag-sast"/>
+  <text x="76" y="121" class="tag-text-sast" text-anchor="middle">SAST</text>
+
+  <!-- SAST description -->
+  <text x="110" y="121" class="label-sast">Static Analysis</text>
+  <text x="300" y="121" class="subtitle" text-anchor="end">inside → out</text>
+
+  <!-- Code block mock -->
+  <rect x="56" y="134" width="152" height="112" rx="4" fill="#0a0f16" stroke="#1f6feb33" stroke-width="0.5"/>
+
+  <!-- Code lines - normal -->
+  <line x1="64" y1="148" x2="148" y2="148" class="code-line"/>
+  <line x1="64" y1="158" x2="130" y2="158" class="code-line"/>
+  <line x1="64" y1="168" x2="156" y2="168" class="code-line"/>
+  <!-- Bug line -->
+  <line x1="64" y1="178" x2="152" y2="178" class="code-bug"/>
+  <!-- Bug indicator -->
+  <circle cx="162" cy="178" r="5" fill="#f85149" opacity="0.9"/>
+  <text x="162" y="181.5" fill="#0d1117" font-family="monospace" font-size="7" font-weight="700" text-anchor="middle">!</text>
+
+  <line x1="64" y1="188" x2="136" y2="188" class="code-line-dim"/>
+  <line x1="64" y1="198" x2="112" y2="198" class="code-line-dim"/>
+  <line x1="64" y1="208" x2="144" y2="208" class="code-line-dim"/>
+  <line x1="64" y1="218" x2="120" y2="218" class="code-line-dim"/>
+  <line x1="64" y1="228" x2="128" y2="228" class="code-line-dim"/>
+  <line x1="64" y1="238" x2="140" y2="238" class="code-line-dim"/>
+
+  <!-- Scan beam highlight on bug line -->
+  <line x1="56" y1="178" x2="208" y2="178" stroke="#388bfd" stroke-width="0.5" opacity="0.3" stroke-dasharray="2,2"/>
+
+  <!-- Scanner magnifier icon -->
+  <circle cx="232" cy="178" r="14" fill="none" stroke="#388bfd" stroke-width="1.5" opacity="0.7"/>
+  <circle cx="232" cy="178" r="8" fill="#388bfd" opacity="0.1"/>
+  <line x1="243" y1="189" x2="251" y2="197" stroke="#388bfd" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+  <line x1="228" y1="178" x2="236" y2="178" stroke="#388bfd" stroke-width="1" opacity="0.8"/>
+  <line x1="232" y1="174" x2="232" y2="182" stroke="#388bfd" stroke-width="1" opacity="0.8"/>
+
+  <!-- SAST features list -->
+  <text x="56" y="268" class="subtitle">✓ Source code analysis</text>
+  <text x="56" y="282" class="subtitle">✓ Pre-deployment scanning</text>
+  <text x="56" y="296" class="subtitle">✓ CI/CD integration</text>
+  <text x="56" y="310" class="subtitle">✓ Exact line detection</text>
+
+  <!-- Scan beams visual effect -->
+  <line x1="56" y1="148" x2="208" y2="148" stroke="#388bfd" stroke-width="0.3" opacity="0.15"/>
+  <line x1="56" y1="158" x2="208" y2="158" stroke="#388bfd" stroke-width="0.3" opacity="0.15"/>
+  <line x1="56" y1="168" x2="208" y2="168" stroke="#388bfd" stroke-width="0.3" opacity="0.15"/>
+  <line x1="56" y1="188" x2="208" y2="188" stroke="#388bfd" stroke-width="0.3" opacity="0.15"/>
+
+  <!-- ===== CENTER DIVIDER ===== -->
+  <line x1="340" y1="98" x2="340" y2="328" class="divider"/>
+  <rect x="323" y="208" width="34" height="24" rx="4" fill="#0d1117"/>
+  <text x="340" y="224" class="vs-text" text-anchor="middle">VS</text>
+
+  <!-- ===== RIGHT PANEL: DAST ===== -->
+  <rect x="360" y="98" width="280" height="230" rx="8" class="bg-card-dast"/>
+
+  <!-- DAST Label badge -->
+  <rect x="372" y="110" width="48" height="16" rx="3" class="tag-dast"/>
+  <text x="396" y="121" class="tag-text-dast" text-anchor="middle">DAST</text>
+
+  <text x="430" y="121" class="label-dast">Dynamic Analysis</text>
+  <text x="630" y="121" class="subtitle" text-anchor="end">outside → in</text>
+
+  <!-- Running app representation -->
+  <rect x="456" y="134" width="160" height="112" rx="4" fill="#120a0a" stroke="#da363333" stroke-width="0.5"/>
+
+  <!-- Browser/app window titlebar -->
+  <rect x="456" y="134" width="160" height="16" rx="4" fill="#1a0d0d" stroke="#da363333" stroke-width="0.5"/>
+  <circle cx="467" cy="142" r="3" fill="#f85149" opacity="0.7"/>
+  <circle cx="478" cy="142" r="3" fill="#f0883e" opacity="0.7"/>
+  <circle cx="489" cy="142" r="3" fill="#3fb950" opacity="0.7"/>
+
+  <!-- App content mock -->
+  <rect x="466" y="158" width="80" height="6" rx="2" fill="#21262d"/>
+  <rect x="466" y="170" width="60" height="6" rx="2" fill="#21262d"/>
+  <rect x="466" y="182" width="70" height="6" rx="2" fill="#21262d"/>
+  <!-- Input field mock -->
+  <rect x="466" y="194" width="80" height="12" rx="2" fill="#161b22" stroke="#30363d" stroke-width="0.5"/>
+  <!-- Submit button mock -->
+  <rect x="466" y="210" width="40" height="10" rx="2" fill="#1f3a1f" stroke="#3fb950" stroke-width="0.5"/>
+  <line x1="470" y1="215" x2="502" y2="215" stroke="#3fb950" stroke-width="1" opacity="0.6"/>
+
+  <!-- Attacker stick figure -->
+  <circle cx="393" cy="168" r="7" fill="none" stroke="#f85149" stroke-width="1.2" opacity="0.8"/>
+  <line x1="393" y1="175" x2="393" y2="195" stroke="#f85149" stroke-width="1.2" opacity="0.8" stroke-linecap="round"/>
+  <line x1="385" y1="183" x2="401" y2="183" stroke="#f85149" stroke-width="1.2" opacity="0.8" stroke-linecap="round"/>
+  <line x1="393" y1="195" x2="387" y2="210" stroke="#f85149" stroke-width="1.2" opacity="0.8" stroke-linecap="round"/>
+  <line x1="393" y1="195" x2="399" y2="210" stroke="#f85149" stroke-width="1.2" opacity="0.8" stroke-linecap="round"/>
+
+  <!-- Attack arrows -->
+  <line x1="410" y1="178" x2="453" y2="194" stroke="#f85149" stroke-width="1" stroke-dasharray="4,2" opacity="0.6" marker-end="url(#arrow)"/>
+  <line x1="410" y1="190" x2="453" y2="202" stroke="#f85149" stroke-width="1" stroke-dasharray="4,2" opacity="0.4" marker-end="url(#arrow)"/>
+  <line x1="410" y1="168" x2="453" y2="182" stroke="#f85149" stroke-width="1" stroke-dasharray="4,2" opacity="0.3" marker-end="url(#arrow)"/>
+
+  <!-- Response alert -->
+  <rect x="456" y="230" width="80" height="12" rx="2" fill="#2d1212" stroke="#f85149" stroke-width="0.5"/>
+  <text x="496" y="239" fill="#f85149" font-family="monospace" font-size="7" text-anchor="middle">SQL Error detected</text>
+
+  <!-- DAST features list -->
+  <text x="372" y="268" class="subtitle">✓ Runtime environment testing</text>
+  <text x="372" y="282" class="subtitle">✓ Attacker perspective</text>
+  <text x="372" y="296" class="subtitle">✓ No source code needed</text>
+  <text x="372" y="310" class="subtitle">✓ Real vulnerability proof</text>
+
+  <!-- ===== BOTTOM PIPELINE ===== -->
+  <line x1="40" y1="338" x2="640" y2="338" class="divider"/>
+
+  <text x="40" y="353" class="subtitle">Pipeline:</text>
+
+  <!-- Pipeline nodes -->
+  <rect x="88" y="343" width="52" height="16" rx="3" class="pipeline-node-active"/>
+  <text x="114" y="354" class="pipeline-text-active" text-anchor="middle">Code</text>
+
+  <line x1="140" y1="351" x2="152" y2="351" class="connector-active" marker-end="url(#arrow)"/>
+
+  <rect x="152" y="343" width="52" height="16" rx="3" fill="#1f2d1f" stroke="#388bfd" stroke-width="0.5"/>
+  <text x="178" y="354" fill="#388bfd" font-family="monospace" font-size="9" text-anchor="middle">SAST</text>
+
+  <line x1="204" y1="351" x2="216" y2="351" class="connector-active" marker-end="url(#arrow)"/>
+
+  <rect x="216" y="343" width="52" height="16" rx="3" class="pipeline-node-active"/>
+  <text x="242" y="354" class="pipeline-text-active" text-anchor="middle">Build</text>
+
+  <line x1="268" y1="351" x2="280" y2="351" class="connector-active" marker-end="url(#arrow)"/>
+
+  <rect x="280" y="343" width="52" height="16" rx="3" class="pipeline-node-active"/>
+  <text x="306" y="354" class="pipeline-text-active" text-anchor="middle">Deploy</text>
+
+  <line x1="332" y1="351" x2="344" y2="351" class="connector-active" marker-end="url(#arrow)"/>
+
+  <rect x="344" y="343" width="52" height="16" rx="3" fill="#2d1212" stroke="#f85149" stroke-width="0.5"/>
+  <text x="370" y="354" fill="#f85149" font-family="monospace" font-size="9" text-anchor="middle">DAST</text>
+
+  <line x1="396" y1="351" x2="408" y2="351" class="connector-active" marker-end="url(#arrow)"/>
+
+  <rect x="408" y="343" width="52" height="16" rx="3" class="pipeline-node-active"/>
+  <text x="434" y="354" class="pipeline-text-active" text-anchor="middle">Release</text>
+
+  <!-- devsecops badge -->
+  <rect x="490" y="343" width="86" height="16" rx="3" fill="#3fb95011" stroke="#3fb950" stroke-width="0.5"/>
+  <text x="533" y="354" fill="#3fb950" font-family="monospace" font-size="9" text-anchor="middle">DevSecOps</text>
+
+  <!-- Corner decoration dots -->
+  <circle cx="52" cy="336" r="2" class="dot-active-sast"/>
+  <circle cx="628" cy="336" r="2" class="dot-active-dast"/>
+</svg>
