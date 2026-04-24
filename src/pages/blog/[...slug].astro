@@ -22,144 +22,346 @@ const formattedDate = post.data.pubDate.toLocaleDateString("id-ID", {
 ---
 
 <Layout title={post.data.title} description={post.data.description}>
-    <article class="py-12 md:py-20 px-6 md:px-12 max-w-7xl mx-auto">
-        <!-- Hero Section -->
-        <div class="max-w-4xl mx-auto mb-12 md:mb-16 text-center">
-            <div class="flex flex-wrap justify-center gap-2 mb-6">
-                {
-                    post.data.tags?.map((tag: string) => (
-                        <a href={`/tags/${tag}`} class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors">
-                            #{tag}
-                        </a>
-                    ))
-                }
+    <article class="post-article">
+
+        <!-- Tags + meta -->
+        <div class="post-header fade-in-up">
+            <div class="post-tags">
+                {post.data.tags?.map((tag: string) => (
+                    <a href={`/tags/${tag}`} class="tag">#{tag}</a>
+                ))}
+            </div>
+
+            <h1 class="post-title">{post.data.title}</h1>
+
+            <div class="post-meta">
+                <time datetime={post.data.pubDate.toISOString()}>{formattedDate}</time>
+                <span class="meta-dot">•</span>
+                <span>Oleh Tim Appsecmonarch</span>
             </div>
         </div>
 
-        <h1
-            class="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-gray-900 mb-6 leading-tight"
-        >
-            {post.data.title}
-        </h1>
+        <!-- Hero image -->
+        {post.data.heroImage && (
+            <div class="hero-img-wrap fade-in-up">
+                <img
+                    src={post.data.heroImage}
+                    alt={post.data.title}
+                    class="hero-img"
+                />
+            </div>
+        )}
 
-        <div
-            class="flex items-center justify-center gap-4 text-gray-500 text-base md:text-lg"
-        >
-            <time datetime={post.data.pubDate.toISOString()}>
-                {formattedDate}
-            </time>
-            <span>•</span>
-            <span>Oleh Admin</span>
-        </div>
-        <!-- Featured Image -->
-        <div class="max-w-5xl mx-auto mb-16 md:mb-20">
-            {
-                post.data.heroImage && (
-                    <img
-                        src={post.data.heroImage}
-                        alt={post.data.title}
-                        class="w-full aspect-video md:aspect-[16/9] object-cover rounded-xl shadow-sm"
-                    />
-                )
-            }
+        <!-- Prose content -->
+        <div class="prose-wrap fade-in-up">
+            <div class="prose-content">
+                <Content />
+            </div>
         </div>
 
-        <!-- Content -->
-        <div
-            class="max-w-3xl mx-auto prose prose-lg prose-headings:font-serif prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg"
-        >
-            <Content />
-        </div>
-
-        <!-- Back Link -->
-        <div class="max-w-3xl mx-auto mt-16 pt-8 border-t border-gray-200">
-            <a
-                href="/"
-                class="inline-flex items-center text-primary font-medium hover:text-primary-hover transition-colors group"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="2"
-                    stroke="currentColor"
-                    class="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"></path>
+        <!-- Back link -->
+        <div class="back-wrap fade-in-up">
+            <a href="/blog" class="back-link">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="2" stroke="currentColor" class="back-arrow" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                 </svg>
-                Kembali ke Beranda
+                Kembali ke Blog
             </a>
         </div>
     </article>
-    <!-- Image Lightbox -->
-     <div id="image-lightbox" class="lightbox">
+
+    <!-- Lightbox -->
+    <div id="image-lightbox" class="lightbox">
         <img id="lightbox-img" alt="Preview" />
     </div>
-    <style>
-        .lightbox {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.85);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.25s ease;
-            z-index: 50;
-        }
+</Layout>
 
-        .lightbox.open {
-            opacity: 1;
-            pointer-events: auto;
-        }
+<style>
+    .post-article {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 4rem 2.5rem 6rem;
+    }
+    @media (max-width: 640px) { .post-article { padding: 2.5rem 1.5rem 5rem; } }
 
-        .lightbox img {
-            max-width: 90vw;
-            max-height: 90vh;
-            border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            cursor: zoom-out;
-        }
+    /* ── Header ── */
+    .post-header {
+        max-width: 768px;
+        margin: 0 auto 3rem;
+        text-align: center;
+    }
 
-        /* Cursor zoom untuk gambar artikel */
-        article img {
-            cursor: zoom-in;
-        }
-    </style>
+    .post-tags {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    .tag {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.75rem;
+        color: #00d4ff;
+        background: rgba(0, 212, 255, 0.08);
+        padding: 0.25rem 0.75rem;
+        border-radius: 6px;
+        text-decoration: none;
+        border: 1px solid rgba(0, 212, 255, 0.2);
+        transition: background 0.2s, color 0.2s;
+    }
+    .tag:hover { background: rgba(0, 212, 255, 0.15); }
+    html:not(.dark) .tag {
+        color: #003377;
+        background: rgba(0, 51, 119, 0.06);
+        border-color: rgba(0, 51, 119, 0.15);
+    }
+    html:not(.dark) .tag:hover { background: rgba(0, 51, 119, 0.12); }
 
-    <script type="module">
-        const lightbox = document.getElementById("image-lightbox");
-        const lightboxImg = document.getElementById("lightbox-img");
+    .post-title {
+        font-family: "IBM Plex Serif", serif;
+        font-weight: 700;
+        font-size: clamp(2rem, 4.5vw, 3.25rem);
+        line-height: 1.15;
+        color: var(--text);
+        margin-bottom: 1.25rem;
+    }
 
-        // Ambil SEMUA gambar di artikel (hero + konten markdown)
-        const images = document.querySelectorAll("article img");
+    .post-meta {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        font-size: 0.9375rem;
+        color: var(--text-muted);
+    }
+    .meta-dot { opacity: 0.4; }
 
-        images.forEach((img) => {
-            img.addEventListener("click", () => {
+    /* ── Hero image ── */
+    .hero-img-wrap {
+        max-width: 960px;
+        margin: 0 auto 4rem;
+    }
+    .hero-img {
+        width: 100%;
+        aspect-ratio: 16/9;
+        object-fit: cover;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        cursor: zoom-in;
+    }
+
+    /* ── Prose ── */
+    .prose-wrap {
+        max-width: 720px;
+        margin: 0 auto;
+    }
+
+    .prose-content {
+        font-family: Inter, sans-serif;
+        font-size: 1.0625rem;
+        line-height: 1.8;
+        color: var(--text);
+    }
+
+    /* Prose headings */
+    .prose-content :global(h1),
+    .prose-content :global(h2),
+    .prose-content :global(h3),
+    .prose-content :global(h4) {
+        font-family: "IBM Plex Serif", serif;
+        font-weight: 700;
+        color: var(--text);
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        line-height: 1.25;
+    }
+    .prose-content :global(h1) { font-size: 2rem; }
+    .prose-content :global(h2) { font-size: 1.625rem; }
+    .prose-content :global(h3) { font-size: 1.3rem; }
+
+    /* Prose paragraphs */
+    .prose-content :global(p) {
+        color: var(--text-muted);
+        margin-bottom: 1.5rem;
+    }
+
+    /* Prose links */
+    .prose-content :global(a) {
+        color: #00d4ff;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(0, 212, 255, 0.3);
+        transition: border-color 0.2s;
+    }
+    .prose-content :global(a:hover) { border-color: #00d4ff; }
+    html:not(.dark) .prose-content :global(a) {
+        color: #003377;
+        border-bottom-color: rgba(0, 51, 119, 0.3);
+    }
+    html:not(.dark) .prose-content :global(a:hover) { border-color: #003377; }
+
+    /* Prose code (inline) */
+    .prose-content :global(code) {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.875em;
+        background: rgba(0, 212, 255, 0.07);
+        color: #00d4ff;
+        padding: 0.15em 0.4em;
+        border-radius: 4px;
+        border: 1px solid rgba(0, 212, 255, 0.12);
+    }
+    html:not(.dark) .prose-content :global(code) {
+        background: rgba(0, 51, 119, 0.06);
+        color: #003377;
+        border-color: rgba(0, 51, 119, 0.12);
+    }
+
+    /* Prose code block */
+    .prose-content :global(pre) {
+        background: #0d1320;
+        border: 1px solid rgba(0, 212, 255, 0.15);
+        border-radius: 10px;
+        padding: 1.5rem;
+        overflow-x: auto;
+        margin-bottom: 1.5rem;
+    }
+    .prose-content :global(pre code) {
+        background: none;
+        border: none;
+        padding: 0;
+        color: #c8d6ef;
+        font-size: 0.875rem;
+    }
+    html:not(.dark) .prose-content :global(pre) { background: #1a2235; }
+
+    /* Prose blockquote */
+    .prose-content :global(blockquote) {
+        border-left: 3px solid #00d4ff;
+        padding: 0.75rem 1.25rem;
+        margin: 1.5rem 0;
+        background: rgba(0, 212, 255, 0.04);
+        border-radius: 0 8px 8px 0;
+        color: var(--text-muted);
+        font-style: italic;
+    }
+    html:not(.dark) .prose-content :global(blockquote) {
+        border-left-color: #003377;
+        background: rgba(0, 51, 119, 0.04);
+    }
+
+    /* Prose lists */
+    .prose-content :global(ul),
+    .prose-content :global(ol) {
+        padding-left: 1.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--text-muted);
+    }
+    .prose-content :global(li) { margin-bottom: 0.5rem; }
+
+    /* Prose images */
+    .prose-content :global(img) {
+        width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        cursor: zoom-in;
+        margin: 1.5rem 0;
+    }
+
+    /* Prose hr */
+    .prose-content :global(hr) {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 2.5rem 0;
+    }
+
+    /* ── Back link ── */
+    .back-wrap {
+        max-width: 720px;
+        margin: 3rem auto 0;
+        padding-top: 2rem;
+        border-top: 1px solid var(--border);
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #00d4ff;
+        font-weight: 500;
+        font-size: 0.9375rem;
+        text-decoration: none;
+        transition: gap 0.2s;
+    }
+    .back-link:hover { gap: 0.75rem; }
+    html:not(.dark) .back-link { color: #003377; }
+
+    .back-arrow {
+        width: 18px; height: 18px;
+        transition: transform 0.2s;
+        flex-shrink: 0;
+    }
+    .back-link:hover .back-arrow { transform: translateX(-3px); }
+
+    /* ── Lightbox ── */
+    .lightbox {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+        z-index: 200;
+    }
+    .lightbox.open { opacity: 1; pointer-events: auto; }
+    .lightbox img {
+        max-width: 90vw;
+        max-height: 90vh;
+        border-radius: 10px;
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+        cursor: zoom-out;
+    }
+</style>
+
+<script>
+    // Lightbox
+    const lightbox = document.getElementById('image-lightbox') as HTMLElement;
+    const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+    const images = document.querySelectorAll<HTMLImageElement>('article img');
+
+    images.forEach((img) => {
+        img.addEventListener('click', () => {
             lightboxImg.src = img.src;
-            lightbox.classList.add("open");
-            document.body.style.overflow = "hidden";
-            });
+            lightbox.classList.add('open');
+            document.body.style.overflow = 'hidden';
         });
+    });
 
-        // Tutup saat klik background
-        lightbox.addEventListener("click", () => {
-            lightbox.classList.remove("open");
-            lightboxImg.src = "";
-            document.body.style.overflow = "";
-        });
+    lightbox.addEventListener('click', () => {
+        lightbox.classList.remove('open');
+        lightboxImg.src = '';
+        document.body.style.overflow = '';
+    });
 
-        // Tutup dengan ESC
-        document.addEventListener("keydown", (e) => {
-            if (e.key === "Escape") {
-            lightbox.classList.remove("open");
-            lightboxImg.src = "";
-            document.body.style.overflow = "";
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            lightbox.classList.remove('open');
+            lightboxImg.src = '';
+            document.body.style.overflow = '';
+        }
+    });
+
+    // Scroll fade-in
+    const fadeEls = document.querySelectorAll('.fade-in-up');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                (entry.target as HTMLElement).classList.add('visible');
+                observer.unobserve(entry.target);
             }
         });
-    </script>
-</Layout>
+    }, { threshold: 0.05 });
+    fadeEls.forEach((el) => observer.observe(el));
+</script>

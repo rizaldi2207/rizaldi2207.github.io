@@ -1,128 +1,474 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import BlogCard from "../components/BlogCard.astro";
-import FeaturedBlogCard from "../components/FeaturedBlogCard.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
 
 const posts = (await getCollection("blog")).sort(
-	(a: CollectionEntry<"blog">, b: CollectionEntry<"blog">) =>
-		b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+    (a: CollectionEntry<"blog">, b: CollectionEntry<"blog">) =>
+        b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 ---
 
 <Layout
-	title="Appsecmonarch Blog - Komunitas Application Security Indonesia"
-	description="Jaga Aplikasi Anda Aman Bersama Kami"
+    title="Appsecmonarch — Komunitas Application Security Indonesia"
+    description="Ketika Security Engineer berstrategi dan Developer mengeksekusi, lahirlah aplikasi yang aman dan tangguh."
 >
-	<section class="py-12 md:py-20 px-6 md:px-12 max-w-7xl mx-auto bg-gray-50">
-		<div class="text-center gap-8 md:gap-12">
-			<h1
-				class="text-4xl md:text-6xl font-serif font-bold text-gray-900 mb-6 leading-tight"
-			>
-				Learn, Share & <span class="text-primary italic"
-					>Secure</span
-				>
-			</h1>
-			<p
-				class="text-xl md:text-2xl text-gray-600 leading-relaxed font-serif"
-			>
-				Ketika Security Engineer berstrategi dan Developer mengeksekusi, lahirlah aplikasi yang aman dan tangguh.
-			</p>
-		</div>
-	</section>
+    <!-- ── Hero ── -->
+    <section class="hero-section">
+        <div class="hero-text">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                <span class="badge-label">KOMUNITAS APPSEC INDONESIA</span>
+            </div>
 
-	<section class="py-12 md:py-20 px-6 md:px-12 max-w-7xl mx-auto">
-		<div class="flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12">
-			<div class="flex-1 max-w-3xl">
-				<h1
-					class="text-2xl md:text-3xl font-serif font-bold text-gray-900 mb-3 leading-tight group-hover:text-primary transition-colors"
-				>
-					Apa itu Application <span class="text-primary italic"
-						>Security</span
-					>?
-				</h1>
-				<p
-					class="mx-auto prose prose-lg prose-headings:font-serif prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg"
-				>
-					Praktik dan proses untuk melindungi aplikasi dari berbagai ancaman siber. Ini bukan cuma tentang membuat aplikasi yang berfungsi, tapi juga memastikan aplikasi itu aman dari serangan yang bisa mengeksploitasi kerentanannya. Dengan mengintegrasikan keamanan ke dalam setiap tahap pengembangan aplikasi, dari perencanaan hingga peluncuran, kita bisa mengurangi risiko kebocoran data, pencurian informasi, dan gangguan layanan yang dapat merugikan pengguna dan bisnis.
-				</p>
-			</div>
-			<div class="flex-1 w-full md:w-auto">
-				<img 
-					src="/assets/securecode2.png" 
-					alt="AppSec Community" 
-					class="w-full h-auto object-cover"
-				/>
-			</div>
-		</div>
-	</section>
+            <h1 class="hero-heading">
+                Learn, Share &amp; <em class="hero-em">Secure</em>
+            </h1>
 
-	<section class="py-12 md:py-20 px-6 md:px-12 max-w-7xl mx-auto">
-		<div class="grid md:grid-cols-2 gap-8 md:gap-12">
-			<div class="flex-1">
-				<h2
-					class="text-2xl md:text-3xl font-serif font-bold text-gray-900 mb-4 leading-tight"
-				>
-					Peran <span class="text-primary italic">Security</span> Engineer
-				</h2>
-				<p class="text-lg text-gray-700 leading-relaxed">
-					AppSec adalah area spesifik dari keamanan siber yang fokus pada aplikasi. Security Engineer bertanggung jawab untuk menemukan, menguji, dan membantu developer memperbaiki kerentanan. Security Engineer adalah penjaga gerbang yang memastikan aplikasi aman sebelum dirilis.
-				</p>
-			</div>
-			<div class="flex-1">
-				<h2
-					class="text-2xl md:text-3xl font-serif font-bold text-gray-900 mb-4 leading-tight"
-				>
-					Peran <span class="text-primary italic">Developer</span>
-				</h2>
-				<p class="text-lg text-gray-700 leading-relaxed">
-					Developer adalah eksekutor yang mengimplementasikan strategi keamanan ke dalam kode. Mereka memastikan setiap baris kode ditulis dengan prinsip secure coding, mengintegrasikan best practices, dan melakukan testing secara menyeluruh. Tanpa eksekusi yang baik, strategi terbaik sekalipun tidak akan berguna.
-				</p>
-			</div>
-		</div>
-	</section>
+            <p class="hero-sub">
+                Ketika Security Engineer berstrategi dan Developer mengeksekusi,
+                lahirlah aplikasi yang aman dan tangguh.
+            </p>
 
-	<section class="py-12 md:py-20 px-6 md:px-12 max-w-7xl mx-auto bg-gray-50">
-		<div class="mb-8 md:mb-12 text-center">
-			<h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-4">
-				Artikel <span class="text-primary italic">Terbaru</span>
-			</h2>
-			<p class="text-lg text-gray-600">
-				Baca tulisan terbaru seputar aplikasi keamanan dan pengembangan
-			</p>
-		</div>
-		<div class="grid md:grid-cols-3 gap-6 md:gap-8">
-			{posts.slice(0, 3).map((post) => (
-				<FeaturedBlogCard 
-					title={post.data.title}
-					description={post.data.description}
-					pubDate={post.data.pubDate}
-					image={post.data.heroImage || "/blog-placeholder-1.jpg"}
-					slug={post.slug}
-					tags={post.data.tags} 
-				/>
-			))}
-		</div>
-		<div class="mt-8 text-right">
-			<a
-				href="/blog"
-				class="inline-flex items-center text-primary font-medium hover:text-primary-hover transition-colors text-lg group"
-			>
-				Baca Semua Artikel
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke-width="2"
-					stroke="currentColor"
-					class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path>
-				</svg>
-			</a>
-		</div>
-	</section>
+            <div class="hero-actions">
+                <a href="/blog" class="btn-primary">Baca Blog →</a>
+                <a href="/about" class="btn-secondary">Tentang Kami</a>
+            </div>
+        </div>
+
+        <!-- Terminal -->
+        <div class="terminal-wrap">
+            <div class="terminal">
+                <div class="terminal-chrome">
+                    <span class="dot" style="background:#ff5f57"></span>
+                    <span class="dot" style="background:#febc2e"></span>
+                    <span class="dot" style="background:#28c840"></span>
+                    <span class="terminal-title">appsecmonarch — terminal</span>
+                </div>
+                <div id="terminal-lines"></div>
+                <span id="terminal-cursor" class="terminal-cursor">▋</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Stats bar ── -->
+    <div class="stats-outer fade-in-up">
+        <div class="stats-bar">
+            <div class="stat"><span class="stat-val">50+</span><span class="stat-lbl">Artikel Teknikal</span></div>
+            <div class="stat-div"></div>
+            <div class="stat"><span class="stat-val">4</span><span class="stat-lbl">Tim Ahli</span></div>
+            <div class="stat-div"></div>
+            <div class="stat"><span class="stat-val">100%</span><span class="stat-lbl">Konten Bahasa Indonesia</span></div>
+            <div class="stat-div"></div>
+            <div class="stat"><span class="stat-val">∞</span><span class="stat-lbl">Semangat Belajar</span></div>
+        </div>
+    </div>
+
+    <!-- ── What is AppSec ── -->
+    <section class="appsec-section fade-in-up">
+        <div class="appsec-inner">
+            <div class="code-block">
+                <div class="terminal-chrome">
+                    <span class="dot" style="background:#ff5f57"></span>
+                    <span class="dot" style="background:#febc2e"></span>
+                    <span class="dot" style="background:#28c840"></span>
+                    <span class="terminal-title">appsec.ts</span>
+                </div>
+                <div class="code-line"><span class="c-kw">const </span><span class="c-var">appSec</span><span class="c-pu"> = &#123;</span></div>
+                <div class="code-line"><span class="c-pu">&#160;&#160;</span><span class="c-key">goal</span><span class="c-pu">: </span><span class="c-str">"Secure every layer"</span><span class="c-pu">,</span></div>
+                <div class="code-line"><span class="c-pu">&#160;&#160;</span><span class="c-key">tools</span><span class="c-pu">: [</span><span class="c-str">"SAST"</span><span class="c-pu">, </span><span class="c-str">"DAST"</span><span class="c-pu">, </span><span class="c-str">"pentest"</span><span class="c-pu">],</span></div>
+                <div class="code-line"><span class="c-pu">&#160;&#160;</span><span class="c-key">mindset</span><span class="c-pu">: </span><span class="c-str">"Security-first"</span><span class="c-pu">,</span></div>
+                <div class="code-line"><span class="c-pu">&#160;&#160;</span><span class="c-key">phase</span><span class="c-pu">: </span><span class="c-str">"shift-left"</span><span class="c-pu">,</span></div>
+                <div class="code-line"><span class="c-pu">&#125;;</span></div>
+                <div class="code-line code-comment">// Protecting apps at every stage</div>
+            </div>
+
+            <div class="appsec-text">
+                <div class="code-label">// APPLICATION_SECURITY</div>
+                <h2 class="section-heading">
+                    Apa itu Application <em class="em-accent">Security</em>?
+                </h2>
+                <p class="body-text">
+                    Praktik dan proses untuk melindungi aplikasi dari berbagai ancaman siber. Bukan sekadar membuat aplikasi yang berfungsi — tapi memastikan aman dari serangan yang mengeksploitasi kerentanannya.
+                </p>
+                <div class="role-cards">
+                    <div class="role-card">
+                        <span class="role-icon">🛡️</span>
+                        <div>
+                            <div class="role-title">Security Engineer</div>
+                            <div class="role-desc">Menemukan, menguji, dan membantu developer memperbaiki kerentanan sebelum release.</div>
+                        </div>
+                    </div>
+                    <div class="role-card">
+                        <span class="role-icon">⚙️</span>
+                        <div>
+                            <div class="role-title">Developer</div>
+                            <div class="role-desc">Mengimplementasikan strategi keamanan ke dalam kode dengan secure coding principles.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Blog preview ── -->
+    <section class="blog-preview-section">
+        <div class="blog-preview-inner">
+            <div class="blog-preview-header">
+                <div>
+                    <div class="code-label">// LATEST_POSTS</div>
+                    <h2 class="section-heading">
+                        Artikel <em class="em-accent">Terbaru</em>
+                    </h2>
+                </div>
+                <a href="/blog" class="link-accent">Baca Semua →</a>
+            </div>
+
+            <div class="blog-grid">
+                {posts.slice(0, 3).map((post) => {
+                    const dateStr = post.data.pubDate.toLocaleDateString("id-ID", {
+                        day: "numeric", month: "long", year: "numeric",
+                    });
+                    return (
+                        <a href={`/blog/${post.slug}`} class="blog-card">
+                            <div class="blog-card-img">
+                                {post.data.heroImage
+                                    ? <img src={post.data.heroImage} alt={post.data.title} style="width:100%;height:100%;object-fit:cover;border-radius:8px;" />
+                                    : <span class="img-placeholder">[ hero image ]</span>
+                                }
+                            </div>
+                            <div class="blog-card-tags">
+                                {post.data.tags?.map((tag: string) => (
+                                    <span class="tag">#{tag}</span>
+                                ))}
+                            </div>
+                            <h3 class="blog-card-title">{post.data.title}</h3>
+                            <p class="blog-card-desc">{post.data.description}</p>
+                            <span class="blog-card-date">{dateStr}</span>
+                        </a>
+                    );
+                })}
+            </div>
+        </div>
+    </section>
+
+    <!-- ── CTA ── -->
+    <section class="cta-section fade-in-up">
+        <div class="cta-inner">
+            <div class="cta-glow"></div>
+            <h2 class="cta-heading">Tertarik Bergabung?</h2>
+            <p class="cta-sub">
+                Mari bersama-sama membangun ekosistem keamanan aplikasi yang lebih baik di Indonesia.
+            </p>
+            <div class="cta-actions">
+                <a href="/contact" class="btn-primary">Hubungi Kami</a>
+                <a href="/blog" class="btn-secondary">Baca Blog Kami</a>
+            </div>
+        </div>
+    </section>
 </Layout>
+
+<style>
+    /* ── Shared ── */
+    .section-heading {
+        font-family: "IBM Plex Serif", serif;
+        font-weight: 700;
+        font-size: clamp(1.75rem, 3.5vw, 2.25rem);
+        color: var(--text);
+        line-height: 1.2;
+        margin-bottom: 1rem;
+    }
+    .em-accent { font-style: italic; color: #00d4ff; }
+    html:not(.dark) .em-accent { color: #003377; }
+
+    .body-text { font-size: 1rem; color: var(--text-muted); line-height: 1.75; }
+
+    .link-accent {
+        color: #00d4ff; text-decoration: none;
+        font-weight: 500; font-size: 0.9375rem;
+        transition: opacity 0.2s;
+    }
+    .link-accent:hover { opacity: 0.75; }
+    html:not(.dark) .link-accent { color: #003377; }
+
+    .btn-primary {
+        background: #00d4ff; color: #0a0e1a;
+        padding: 0.75rem 1.75rem; border-radius: 8px;
+        font-weight: 600; font-size: 0.9375rem;
+        text-decoration: none; transition: opacity 0.2s; display: inline-block;
+    }
+    html:not(.dark) .btn-primary { background: #003377; color: #fff; }
+    .btn-primary:hover { opacity: 0.88; }
+
+    .btn-secondary {
+        background: transparent; color: var(--text);
+        padding: 0.75rem 1.75rem; border-radius: 8px;
+        font-weight: 500; font-size: 0.9375rem;
+        text-decoration: none;
+        border: 1px solid var(--border);
+        transition: border-color 0.2s, color 0.2s; display: inline-block;
+    }
+    .btn-secondary:hover { border-color: #00d4ff; color: #00d4ff; }
+    html:not(.dark) .btn-secondary:hover { border-color: #003377; color: #003377; }
+
+    .tag {
+        font-family: "JetBrains Mono", monospace; font-size: 0.7rem;
+        color: #00d4ff; background: rgba(0,212,255,0.08);
+        padding: 0.2rem 0.6rem; border-radius: 4px;
+    }
+
+    /* ── Hero ── */
+    .hero-section {
+        max-width: 1280px; margin: 0 auto;
+        padding: 5rem 2.5rem 4rem;
+        display: grid; grid-template-columns: 1fr 1fr;
+        gap: 4rem; align-items: center;
+    }
+    @media (max-width: 900px) {
+        .hero-section { grid-template-columns: 1fr; gap: 2.5rem; padding: 3rem 1.5rem; }
+    }
+
+    .hero-badge {
+        display: inline-flex; align-items: center; gap: 0.5rem;
+        background: rgba(0,212,255,0.08);
+        border: 1px solid rgba(0,212,255,0.2);
+        border-radius: 20px; padding: 0.35rem 0.875rem; margin-bottom: 1.5rem;
+    }
+    .badge-dot {
+        width: 6px; height: 6px; border-radius: 50%;
+        background: #22d3a5; animation: pulse 2s infinite;
+    }
+    .badge-label {
+        font-family: "JetBrains Mono", monospace; font-size: 0.72rem;
+        color: #00d4ff; letter-spacing: 0.05em;
+    }
+
+    .hero-heading {
+        font-family: "IBM Plex Serif", serif; font-weight: 700;
+        font-size: clamp(2.5rem, 4vw, 3.75rem);
+        line-height: 1.1; color: var(--text); margin-bottom: 1.25rem;
+    }
+    .hero-em { font-style: italic; color: #00d4ff; }
+
+    .hero-sub {
+        font-size: 1.0625rem; color: var(--text-muted);
+        line-height: 1.7; margin-bottom: 2.25rem; max-width: 480px;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    /* ── Terminal ── */
+    .terminal {
+        background: #0d1320;
+        border: 1px solid rgba(0,212,255,0.2);
+        border-radius: 12px; padding: 1.5rem;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.875rem; line-height: 1.8; min-height: 220px;
+        box-shadow: 0 0 40px rgba(0,212,255,0.06);
+    }
+    html:not(.dark) .terminal { background: #1a2235; }
+
+    .terminal-chrome { display: flex; align-items: center; gap: 6px; margin-bottom: 1rem; }
+    .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+    .terminal-title { margin-left: 8px; color: #8b9cbb; font-size: 0.75rem; }
+    .terminal-line { animation: fadeIn 0.3s ease; }
+    .terminal-line.cmd { color: #00d4ff; }
+    .terminal-line.ok  { color: #22d3a5; }
+    .terminal-line.txt { color: #c8d6ef; }
+    .terminal-cursor { color: #00d4ff; animation: blink 1s step-end infinite; }
+    .terminal-cursor.hidden { display: none; }
+
+    /* ── Stats ── */
+    .stats-outer { max-width: 1280px; margin: 0 auto; padding: 0 2.5rem 4rem; }
+    @media (max-width: 640px) { .stats-outer { padding: 0 1.5rem 3rem; } }
+
+    .stats-bar {
+        background: var(--card-bg); border: 1px solid var(--border);
+        border-radius: 12px; padding: 2rem;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+        gap: 1rem; align-items: center; text-align: center;
+    }
+    @media (max-width: 640px) {
+        .stats-bar { grid-template-columns: 1fr 1fr; }
+        .stat-div { display: none; }
+    }
+
+    .stat-div { width: 1px; height: 40px; background: var(--border); }
+    .stat-val {
+        font-family: "IBM Plex Serif", serif; font-weight: 700;
+        font-size: 2.25rem; color: #00d4ff; line-height: 1; display: block;
+    }
+    .stat-lbl { font-size: 0.8125rem; color: var(--text-muted); margin-top: 0.375rem; display: block; }
+
+    /* ── AppSec section ── */
+    .appsec-section { background: var(--bg-secondary); padding: 5rem 0; }
+    .appsec-inner {
+        max-width: 1280px; margin: 0 auto; padding: 0 2.5rem;
+        display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+    }
+    @media (max-width: 900px) {
+        .appsec-inner { grid-template-columns: 1fr; gap: 2rem; padding: 0 1.5rem; }
+    }
+
+    .code-block {
+        background: #0d1320;
+        border: 1px solid rgba(0,212,255,0.2);
+        border-radius: 12px; padding: 1.75rem;
+        font-family: "JetBrains Mono", monospace; font-size: 0.8125rem; line-height: 2;
+    }
+    html:not(.dark) .code-block { background: #1a2235; }
+
+    .code-line { display: block; }
+    .code-comment { color: #4a5568; }
+    .c-kw  { color: #7c8bac; }
+    .c-var { color: #00d4ff; }
+    .c-pu  { color: #7c8bac; }
+    .c-key { color: #22d3a5; }
+    .c-str { color: #f59e0b; }
+
+    .role-cards { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
+    .role-card {
+        display: flex; gap: 1rem; align-items: flex-start;
+        background: var(--card-bg); border: 1px solid var(--border);
+        border-radius: 10px; padding: 1.25rem;
+    }
+    .role-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .role-title {
+        font-family: "IBM Plex Serif", serif; font-weight: 700;
+        font-size: 1rem; color: var(--text); margin-bottom: 0.3rem;
+    }
+    .role-desc { font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ── Blog preview ── */
+    .blog-preview-section { padding: 5rem 0; }
+    .blog-preview-inner { max-width: 1280px; margin: 0 auto; padding: 0 2.5rem; }
+    @media (max-width: 640px) { .blog-preview-inner { padding: 0 1.5rem; } }
+
+    .blog-preview-header {
+        display: flex; justify-content: space-between;
+        align-items: flex-end; margin-bottom: 2.5rem;
+        flex-wrap: wrap; gap: 1rem;
+    }
+
+    .blog-grid {
+        display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    }
+    @media (max-width: 900px) { .blog-grid { grid-template-columns: 1fr; } }
+
+    .blog-card {
+        background: var(--card-bg); border: 1px solid var(--border);
+        border-radius: 12px; padding: 1.75rem;
+        text-decoration: none; color: var(--text); display: block;
+        transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+    .blog-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 32px rgba(0,212,255,0.08);
+        border-color: #00d4ff;
+    }
+    html:not(.dark) .blog-card:hover {
+        border-color: #003377;
+        box-shadow: 0 8px 32px rgba(0,51,119,0.08);
+    }
+
+    .blog-card-img {
+        width: 100%; height: 160px; border-radius: 8px; margin-bottom: 1.25rem;
+        background: linear-gradient(135deg, #1a2235 0%, #0d1320 100%);
+        display: flex; align-items: center; justify-content: center;
+        border: 1px solid rgba(0,212,255,0.07); overflow: hidden;
+    }
+    html:not(.dark) .blog-card-img {
+        background: linear-gradient(135deg, #e2e8f0 0%, #f1f5f9 100%);
+        border-color: #e5e7eb;
+    }
+    .img-placeholder {
+        font-family: "JetBrains Mono", monospace; font-size: 0.7rem;
+        color: #4a5568; letter-spacing: 0.05em;
+    }
+    html:not(.dark) .img-placeholder { color: #94a3b8; }
+
+    .blog-card-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem; }
+    .blog-card-title {
+        font-family: "IBM Plex Serif", serif; font-weight: 700;
+        font-size: 1.125rem; color: var(--text);
+        margin-bottom: 0.625rem; line-height: 1.35; transition: color 0.2s;
+    }
+    .blog-card:hover .blog-card-title { color: #00d4ff; }
+    html:not(.dark) .blog-card:hover .blog-card-title { color: #003377; }
+    .blog-card-desc {
+        font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; margin-bottom: 1rem;
+    }
+    .blog-card-date { font-size: 0.8rem; color: var(--text-dim); font-weight: 500; }
+
+    /* ── CTA ── */
+    .cta-section { max-width: 1280px; margin: 0 auto; padding: 5rem 2.5rem; }
+    @media (max-width: 640px) { .cta-section { padding: 4rem 1.5rem; } }
+
+    .cta-inner {
+        background: linear-gradient(135deg, #eff6ff 0%, #f0fdfa 100%);
+        border: 1px solid rgba(0,51,119,0.1);
+        border-radius: 16px; padding: 4rem; text-align: center;
+        position: relative; overflow: hidden;
+    }
+    html.dark .cta-inner {
+        background: linear-gradient(135deg, #0d1a33 0%, #111827 100%);
+        border-color: rgba(0,212,255,0.15);
+    }
+    @media (max-width: 640px) { .cta-inner { padding: 2.5rem 1.5rem; } }
+
+    .cta-glow {
+        position: absolute; top: -60px; right: -60px;
+        width: 240px; height: 240px; border-radius: 50%;
+        background: rgba(0,212,255,0.04); filter: blur(40px); pointer-events: none;
+    }
+    .cta-heading {
+        font-family: "IBM Plex Serif", serif; font-weight: 700;
+        font-size: 2.25rem; color: var(--text); margin-bottom: 0.875rem; position: relative;
+    }
+    .cta-sub {
+        font-size: 1.0625rem; color: var(--text-muted);
+        max-width: 480px; margin: 0 auto 2.25rem; position: relative;
+    }
+    .cta-actions {
+        display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative;
+    }
+</style>
+
+<script>
+    const LINES = [
+        { text: '$ appsecmonarch --init', type: 'cmd' },
+        { text: '> Loading security modules...', type: 'txt' },
+        { text: '> SAST/DAST tools ready ✓', type: 'ok' },
+        { text: '> Threat model updated ✓', type: 'ok' },
+        { text: '> Secure coding practices loaded ✓', type: 'ok' },
+        { text: '$ Ready. Selamat datang, hacker baik. 🔐', type: 'cmd' },
+    ];
+
+    const container = document.getElementById('terminal-lines');
+    const cursor = document.getElementById('terminal-cursor');
+
+    if (container) {
+        LINES.forEach((line, i) => {
+            setTimeout(() => {
+                const el = document.createElement('div');
+                el.className = `terminal-line ${line.type}`;
+                el.textContent = line.text;
+                container.appendChild(el);
+                if (i === LINES.length - 1 && cursor) {
+                    cursor.classList.add('hidden');
+                }
+            }, i * 700);
+        });
+    }
+
+    // Scroll-based fade-in
+    const fadeEls = document.querySelectorAll('.fade-in-up');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                (entry.target as HTMLElement).classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    fadeEls.forEach((el) => observer.observe(el));
+</script>
