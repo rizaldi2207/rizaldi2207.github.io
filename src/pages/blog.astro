@@ -145,6 +145,7 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))];
         color: #00d4ff; background: rgba(0,212,255,0.08);
         padding: 0.2rem 0.6rem; border-radius: 4px;
     }
+    html:not(.dark) .tag { color: #003377; background: rgba(0,51,119,0.08); }
 
     .post-title {
         font-family: "IBM Plex Serif", serif; font-weight: 700;

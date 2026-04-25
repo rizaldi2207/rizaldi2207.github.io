@@ -212,7 +212,6 @@ const formattedDate = post.data.pubDate.toLocaleDateString("id-ID", {
     }
     html:not(.dark) .prose-content :global(code) {
         background: rgba(0, 51, 119, 0.06);
-        color: #003377;
         border-color: rgba(0, 51, 119, 0.12);
     }
 
@@ -250,13 +249,69 @@ const formattedDate = post.data.pubDate.toLocaleDateString("id-ID", {
     }
 
     /* Prose lists */
-    .prose-content :global(ul),
-    .prose-content :global(ol) {
+    .prose-content :global(ul) {
+        list-style-type: disc;
         padding-left: 1.5rem;
         margin-bottom: 1.5rem;
         color: var(--text-muted);
     }
-    .prose-content :global(li) { margin-bottom: 0.5rem; }
+    .prose-content :global(ol) {
+        list-style-type: decimal;
+        padding-left: 1.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--text-muted);
+    }
+    .prose-content :global(ul ul) { list-style-type: circle; }
+    .prose-content :global(ul ul ul) { list-style-type: square; }
+    .prose-content :global(li) {
+        margin-bottom: 0.5rem;
+        padding-left: 0.25rem;
+    }
+    .prose-content :global(li::marker) { color: #00d4ff; }
+    html:not(.dark) .prose-content :global(li::marker) { color: #003377; }
+
+    /* Prose tables */
+    .prose-content :global(table) {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 1.75rem;
+        font-size: 0.9375rem;
+        overflow-x: auto;
+        display: block;
+    }
+    .prose-content :global(thead) {
+        background: rgba(0, 212, 255, 0.07);
+        border-bottom: 2px solid rgba(0, 212, 255, 0.25);
+    }
+    html:not(.dark) .prose-content :global(thead) {
+        background: rgba(0, 51, 119, 0.06);
+        border-bottom-color: rgba(0, 51, 119, 0.2);
+    }
+    .prose-content :global(th) {
+        padding: 0.875rem 1.25rem;
+        text-align: left;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: #00d4ff;
+        letter-spacing: 0.03em;
+        white-space: nowrap;
+    }
+    html:not(.dark) .prose-content :global(th) { color: #003377; }
+    .prose-content :global(td) {
+        padding: 0.875rem 1.25rem;
+        color: var(--text-muted);
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+        line-height: 1.6;
+    }
+    .prose-content :global(tr:last-child td) { border-bottom: none; }
+    .prose-content :global(tr:hover td) {
+        background: rgba(0, 212, 255, 0.03);
+    }
+    html:not(.dark) .prose-content :global(tr:hover td) {
+        background: rgba(0, 51, 119, 0.03);
+    }
 
     /* Prose images */
     .prose-content :global(img) {
