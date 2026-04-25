@@ -241,6 +241,14 @@ const posts = (await getCollection("blog")).sort(
         font-family: "JetBrains Mono", monospace; font-size: 0.72rem;
         color: #00d4ff; letter-spacing: 0.05em;
     }
+    html:not(.dark) .badge-label { color: #003377; }
+
+    .code-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.7rem; color: #00d4ff;
+        letter-spacing: 0.1em; opacity: 0.7; margin-bottom: 0.75rem;
+    }
+    html:not(.dark) .code-label { color: #003377; }
 
     .hero-heading {
         font-family: "IBM Plex Serif", serif; font-weight: 700;
@@ -248,6 +256,7 @@ const posts = (await getCollection("blog")).sort(
         line-height: 1.1; color: var(--text); margin-bottom: 1.25rem;
     }
     .hero-em { font-style: italic; color: #00d4ff; }
+    html:not(.dark) .hero-em { color: #003377; }
 
     .hero-sub {
         font-size: 1.0625rem; color: var(--text-muted);
@@ -258,6 +267,7 @@ const posts = (await getCollection("blog")).sort(
     /* ── Terminal ── */
     .terminal {
         background: #0d1320;
+        color: #c8d6ef;
         border: 1px solid rgba(0,212,255,0.2);
         border-radius: 12px; padding: 1.5rem;
         font-family: "JetBrains Mono", monospace;
@@ -269,11 +279,6 @@ const posts = (await getCollection("blog")).sort(
     .terminal-chrome { display: flex; align-items: center; gap: 6px; margin-bottom: 1rem; }
     .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
     .terminal-title { margin-left: 8px; color: #8b9cbb; font-size: 0.75rem; }
-    .terminal-line { animation: fadeIn 0.3s ease; }
-    .terminal-line.cmd { color: #00d4ff; }
-    .terminal-line.ok  { color: #22d3a5; }
-    .terminal-line.txt { color: #c8d6ef; }
-    .terminal-cursor { color: #00d4ff; animation: blink 1s step-end infinite; }
     .terminal-cursor.hidden { display: none; }
 
     /* ── Stats ── */
@@ -297,6 +302,7 @@ const posts = (await getCollection("blog")).sort(
         font-family: "IBM Plex Serif", serif; font-weight: 700;
         font-size: 2.25rem; color: #00d4ff; line-height: 1; display: block;
     }
+    html:not(.dark) .stat-val { color: #003377; }
     .stat-lbl { font-size: 0.8125rem; color: var(--text-muted); margin-top: 0.375rem; display: block; }
 
     /* ── AppSec section ── */
@@ -431,6 +437,14 @@ const posts = (await getCollection("blog")).sort(
     .cta-actions {
         display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative;
     }
+</style>
+
+<style is:global>
+    .terminal-line { animation: fadeIn 0.3s ease; }
+    .terminal-line.cmd { color: #00d4ff; }
+    .terminal-line.ok  { color: #22d3a5; }
+    .terminal-line.txt { color: #c8d6ef; }
+    .terminal-cursor   { color: #00d4ff; animation: blink 1s step-end infinite; }
 </style>
 
 <script>
