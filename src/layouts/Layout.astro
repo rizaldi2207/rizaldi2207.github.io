@@ -3,19 +3,18 @@ import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 
-// Supports weights 100-700
 import "@fontsource/ibm-plex-serif/300.css";
 import "@fontsource/ibm-plex-serif/400.css";
 import "@fontsource/ibm-plex-serif/500.css";
 import "@fontsource/ibm-plex-serif/600.css";
 import "@fontsource/ibm-plex-serif/700.css";
-
-// Supports weights 100-900
 import "@fontsource/inter/300.css";
 import "@fontsource/inter/400.css";
 import "@fontsource/inter/500.css";
 import "@fontsource/inter/600.css";
 import "@fontsource/inter/700.css";
+import "@fontsource/jetbrains-mono/400.css";
+import "@fontsource/jetbrains-mono/500.css";
 
 interface Props {
     title: string;
@@ -29,12 +28,94 @@ const { title, description } = Astro.props;
 <html lang="id">
     <head>
         <BaseHead title={title} description={description} />
+        <script is:inline>
+            (function () {
+                const stored = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (stored === 'dark' || (!stored && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                }
+            })();
+        </script>
     </head>
-    <body class="bg-background text-gray-900 font-sans antialiased">
+    <body class="font-sans antialiased transition-colors duration-300">
         <Header />
-        <main>
+        <main class="pt-20">
             <slot />
         </main>
         <Footer />
     </body>
 </html>
+
+<style is:global>
+    :root {
+        --bg: #f8fafc;
+        --bg-secondary: #f1f5f9;
+        --card-bg: #ffffff;
+        --text: #0f172a;
+        --text-muted: #4b5563;
+        --text-dim: #9ca3af;
+        --border: #e5e7eb;
+        --header-bg-scroll: rgba(248, 250, 252, 0.95);
+    }
+
+    html.dark {
+        --bg: #0a0e1a;
+        --bg-secondary: #080c15;
+        --card-bg: #111827;
+        --text: #e2e8f0;
+        --text-muted: #8b9cbb;
+        --text-dim: #4a5568;
+        --border: rgba(255, 255, 255, 0.06);
+        --header-bg-scroll: rgba(10, 14, 26, 0.95);
+    }
+
+    body {
+        background: var(--bg);
+        color: var(--text);
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideIn {
+        from { transform: scaleX(0); }
+        to   { transform: scaleX(1); }
+    }
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50%       { opacity: 0.4; }
+    }
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50%       { opacity: 0; }
+    }
+
+    .fade-in-up {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Mono font utility */
+    .font-mono { font-family: "JetBrains Mono", "Fira Code", monospace; }
+
+    /* Section comment label */
+    .code-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.7rem;
+        color: #00d4ff;
+        letter-spacing: 0.1em;
+        opacity: 0.7;
+        margin-bottom: 0.75rem;
+    }
+</style>
