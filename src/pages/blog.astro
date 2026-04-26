@@ -36,15 +36,16 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))];
 
         <!-- Posts list -->
         <div class="posts-list" id="posts-list">
-            {posts.map((post) => {
+            {posts.map((post, i) => {
                 const dateStr = post.data.pubDate.toLocaleDateString("id-ID", {
                     day: "numeric", month: "long", year: "numeric",
                 });
                 return (
                     <a
                         href={`/blog/${post.slug}`}
-                        class="post-item"
+                        class="post-item fade-in-up"
                         data-tags={(post.data.tags ?? []).join(",")}
+                        style={`transition-delay: ${i * 0.07}s`}
                     >
                         <div class="post-thumb">
                             {post.data.heroImage
