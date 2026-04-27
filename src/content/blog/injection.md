@@ -2,7 +2,7 @@
 title: 'Injection Attack: Ancaman Lama yang Masih Berbahaya di Era Modern'
 description: 'Panduan mendalam tentang berbagai jenis serangan Injection — SQL, Command, LDAP, XSS, dan lainnya — beserta cara kerja, contoh eksploitasi nyata, dan strategi mitigasi yang wajib diterapkan oleh Developer dan IT Security.'
 pubDate: '2026-04-27'
-heroImage: '/assets/injection-attacks.png'
+heroImage: '/assets/injection_attack_hero.svg'
 tags: ['security', 'owasp', 'injection', 'sql-injection', 'web-security', 'developer', 'appsec']
 ---
 
