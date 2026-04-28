@@ -36,16 +36,15 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))];
 
         <!-- Posts list -->
         <div class="posts-list" id="posts-list">
-            {posts.map((post, i) => {
+            {posts.map((post) => {
                 const dateStr = post.data.pubDate.toLocaleDateString("id-ID", {
                     day: "numeric", month: "long", year: "numeric",
                 });
                 return (
                     <a
                         href={`/blog/${post.slug}`}
-                        class="post-item fade-in-up"
+                        class="post-item"
                         data-tags={(post.data.tags ?? []).join(",")}
-                        style={`transition-delay: ${i * 0.07}s`}
                     >
                         <div class="post-thumb">
                             {post.data.heroImage
@@ -67,6 +66,15 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))];
                 );
             })}
         </div>
+
+        <!-- Empty state -->
+        <div class="empty-state" id="empty-state">
+            <span class="empty-icon">[ 0 results ]</span>
+            <p>Tidak ada artikel untuk tag ini.</p>
+        </div>
+
+        <!-- Pagination -->
+        <nav class="pagination" id="pagination" aria-label="Navigasi halaman"></nav>
     </div>
 </Layout>
 
@@ -110,8 +118,12 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))];
     }
     html:not(.dark) .tag-btn.active { background: #003377; color: #fff; border-color: #003377; }
 
-    /* Posts */
-    .posts-list { display: flex; flex-direction: column; }
+    /* Posts list */
+    .posts-list {
+        display: flex; flex-direction: column;
+        transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+    .posts-list.changing { opacity: 0; transform: translateY(6px); }
 
     .post-item {
         display: grid; grid-template-columns: 200px 1fr;
@@ -119,7 +131,6 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))];
         padding: 2rem 0;
         border-bottom: 1px solid var(--border);
         text-decoration: none; color: var(--text);
-        transition: opacity 0.2s;
     }
     .post-item.hidden { display: none; }
     @media (max-width: 640px) { .post-item { grid-template-columns: 1fr; } }
@@ -162,39 +173,175 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))];
         line-height: 1.65; margin-bottom: 1rem;
     }
     .post-date { font-size: 0.8rem; color: var(--text-dim); }
+
+    /* Empty state */
+    .empty-state {
+        display: none;
+        flex-direction: column; align-items: center; justify-content: center;
+        gap: 0.75rem; padding: 4rem 0; text-align: center;
+    }
+    .empty-state.visible { display: flex; }
+    .empty-icon {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.875rem; color: var(--text-dim);
+    }
+    .empty-state p { font-size: 1rem; color: var(--text-muted); }
+
+    /* ── Pagination ── */
+    .pagination {
+        display: flex; align-items: center; justify-content: center;
+        gap: 0.375rem; padding-top: 3rem; flex-wrap: wrap;
+    }
+
+    .page-btn {
+        font-family: "JetBrains Mono", monospace; font-size: 0.8125rem;
+        min-width: 36px; height: 36px; padding: 0 0.5rem;
+        border-radius: 6px; cursor: pointer;
+        background: var(--bg-secondary); color: var(--text-muted);
+        border: 1px solid var(--border);
+        display: inline-flex; align-items: center; justify-content: center;
+        transition: all 0.2s;
+        user-select: none;
+    }
+    .page-btn:hover:not(:disabled) { border-color: #00d4ff; color: #00d4ff; }
+    html:not(.dark) .page-btn:hover:not(:disabled) { border-color: #003377; color: #003377; }
+    .page-btn.active {
+        background: #00d4ff; color: #0a0e1a; border-color: #00d4ff;
+        font-weight: 600;
+    }
+    html:not(.dark) .page-btn.active { background: #003377; color: #fff; border-color: #003377; }
+    .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    .page-ellipsis {
+        font-family: "JetBrains Mono", monospace; font-size: 0.8125rem;
+        color: var(--text-dim); padding: 0 0.25rem;
+    }
 </style>
 
 <script>
-    const filterBtns = document.querySelectorAll<HTMLButtonElement>('.tag-btn');
-    const postItems = document.querySelectorAll<HTMLElement>('.post-item');
+    const POSTS_PER_PAGE = 5;
 
-    filterBtns.forEach((btn) => {
+    const filterBtns = document.querySelectorAll<HTMLButtonElement>('.tag-btn');
+    const postItems = Array.from(document.querySelectorAll<HTMLElement>('.post-item'));
+    const listEl    = document.getElementById('posts-list')!;
+    const paginationEl = document.getElementById('pagination')!;
+    const emptyEl   = document.getElementById('empty-state')!;
+
+    let currentTag  = 'all';
+    let currentPage = 1;
+
+    function getFiltered(): HTMLElement[] {
+        if (currentTag === 'all') return postItems;
+        return postItems.filter(item => {
+            const tags = (item.dataset.tags ?? '').split(',');
+            return tags.includes(currentTag);
+        });
+    }
+
+    function renderPage() {
+        const filtered  = getFiltered();
+        const totalPages = Math.ceil(filtered.length / POSTS_PER_PAGE);
+        const start = (currentPage - 1) * POSTS_PER_PAGE;
+        const end   = start + POSTS_PER_PAGE;
+
+        postItems.forEach(item => item.classList.add('hidden'));
+        filtered.slice(start, end).forEach(item => item.classList.remove('hidden'));
+
+        // Empty state
+        emptyEl.classList.toggle('visible', filtered.length === 0);
+
+        renderPagination(totalPages);
+    }
+
+    function renderPagination(totalPages: number) {
+        if (totalPages <= 1) { paginationEl.innerHTML = ''; return; }
+
+        const btns: string[] = [];
+
+        // Prev
+        btns.push(
+            `<button class="page-btn" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''} aria-label="Halaman sebelumnya">&#8592;</button>`
+        );
+
+        // Page numbers with ellipsis for large sets
+        const range = pageRange(currentPage, totalPages);
+        range.forEach(p => {
+            if (p === '...') {
+                btns.push(`<span class="page-ellipsis">…</span>`);
+            } else {
+                btns.push(
+                    `<button class="page-btn ${p === currentPage ? 'active' : ''}" data-page="${p}" aria-label="Halaman ${p}" aria-current="${p === currentPage ? 'page' : 'false'}">${p}</button>`
+                );
+            }
+        });
+
+        // Next
+        btns.push(
+            `<button class="page-btn" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''} aria-label="Halaman berikutnya">&#8594;</button>`
+        );
+
+        paginationEl.innerHTML = btns.join('');
+
+        paginationEl.querySelectorAll<HTMLButtonElement>('.page-btn:not([disabled])').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const next = parseInt(btn.dataset.page ?? '1');
+                if (next === currentPage) return;
+                goToPage(next);
+            });
+        });
+    }
+
+    function pageRange(current: number, total: number): (number | '...')[] {
+        if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+        const pages: (number | '...')[] = [];
+        pages.push(1);
+        if (current > 3) pages.push('...');
+        for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) {
+            pages.push(i);
+        }
+        if (current < total - 2) pages.push('...');
+        pages.push(total);
+        return pages;
+    }
+
+    function goToPage(page: number) {
+        currentPage = page;
+        listEl.classList.add('changing');
+        setTimeout(() => {
+            renderPage();
+            listEl.classList.remove('changing');
+            window.scrollTo({ top: listEl.getBoundingClientRect().top + window.scrollY - 120, behavior: 'smooth' });
+        }, 180);
+    }
+
+    // Tag filter
+    filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const tag = btn.dataset.tag ?? 'all';
-
-            filterBtns.forEach((b) => b.classList.remove('active'));
+            filterBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-
-            postItems.forEach((item) => {
-                if (tag === 'all') {
-                    item.classList.remove('hidden');
-                } else {
-                    const tags = (item.dataset.tags ?? '').split(',');
-                    item.classList.toggle('hidden', !tags.includes(tag));
-                }
-            });
+            currentTag  = tag;
+            currentPage = 1;
+            listEl.classList.add('changing');
+            setTimeout(() => {
+                renderPage();
+                listEl.classList.remove('changing');
+            }, 180);
         });
     });
 
-    // Scroll fade-in
+    // Initial render
+    renderPage();
+
+    // Scroll fade-in for header + tag filter
     const fadeEls = document.querySelectorAll('.fade-in-up');
     const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
+        entries.forEach(entry => {
             if (entry.isIntersecting) {
                 (entry.target as HTMLElement).classList.add('visible');
                 observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.1 });
-    fadeEls.forEach((el) => observer.observe(el));
+    }, { threshold: 0 });
+    fadeEls.forEach(el => observer.observe(el));
 </script>
