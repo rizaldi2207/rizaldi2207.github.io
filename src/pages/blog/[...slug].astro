@@ -53,14 +53,14 @@ const formattedDate = post.data.pubDate.toLocaleDateString("id-ID", {
         )}
 
         <!-- Prose content -->
-        <div class="prose-wrap fade-in-up">
+        <div class="prose-wrap">
             <div class="prose-content">
                 <Content />
             </div>
         </div>
 
         <!-- Back link -->
-        <div class="back-wrap fade-in-up">
+        <div class="back-wrap">
             <a href="/blog" class="back-link">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                     stroke-width="2" stroke="currentColor" class="back-arrow" aria-hidden="true">
@@ -417,6 +417,6 @@ const formattedDate = post.data.pubDate.toLocaleDateString("id-ID", {
                 observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.05 });
+    }, { threshold: 0 });
     fadeEls.forEach((el) => observer.observe(el));
 </script>
