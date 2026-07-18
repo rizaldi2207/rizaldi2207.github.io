@@ -1,17 +1,87 @@
 ---
-// Import the global.css file here so that it is included on
-// all pages through the use of the <BaseHead /> component.
-// import '../styles/global.css';
+// SEO/meta head shared by every page via Layout.astro.
 
 interface Props {
     title: string;
     description: string;
     image?: string;
+    /** 'article' switches og:type and emits BlogPosting + BreadcrumbList JSON-LD. */
+    type?: "website" | "article";
+    publishedDate?: Date;
+    updatedDate?: Date;
 }
+
+const SITE_NAME = "Appsecmonarch";
+
+const {
+    title,
+    description,
+    image = "/assets/securecode.png",
+    type = "website",
+    publishedDate,
+    updatedDate,
+} = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = "/blog-placeholder-1.jpg" } = Astro.props;
+// Absolute URL is what social scrapers and schema require — resolve against the
+// canonical origin (Astro.site), not the current request URL.
+const socialImageURL = new URL(image, Astro.site);
+
+// <title> carries the brand suffix, but schema headline should not — strip it.
+const headline = title.replace(/\s*—\s*Appsecmonarch\s*$/, "");
+
+// ── JSON-LD ──────────────────────────────────────────────────────────────────
+// One @graph so nodes can cross-reference (BlogPosting.publisher → Organization).
+const orgId = new URL("#organization", Astro.site).href;
+const organization = {
+    "@type": "Organization",
+    "@id": orgId,
+    name: SITE_NAME,
+    url: Astro.site?.href,
+    logo: {
+        "@type": "ImageObject",
+        url: new URL("/assets/logo.png", Astro.site).href,
+    },
+};
+
+const graph: Record<string, unknown>[] = [organization];
+
+if (Astro.url.pathname === "/") {
+    graph.push({
+        "@type": "WebSite",
+        name: SITE_NAME,
+        url: Astro.site?.href,
+        description,
+        inLanguage: "id-ID",
+        publisher: { "@id": orgId },
+    });
+}
+
+if (type === "article" && publishedDate) {
+    graph.push({
+        "@type": "BlogPosting",
+        headline,
+        description,
+        image: socialImageURL.href,
+        datePublished: publishedDate.toISOString(),
+        dateModified: (updatedDate ?? publishedDate).toISOString(),
+        author: { "@id": orgId },
+        publisher: { "@id": orgId },
+        inLanguage: "id-ID",
+        mainEntityOfPage: { "@type": "WebPage", "@id": canonicalURL.href },
+    });
+    graph.push({
+        "@type": "BreadcrumbList",
+        itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Beranda", item: new URL("/", Astro.site).href },
+            { "@type": "ListItem", position: 2, name: "Blog", item: new URL("/blog", Astro.site).href },
+            { "@type": "ListItem", position: 3, name: headline },
+        ],
+    });
+}
+
+const jsonLd = { "@context": "https://schema.org", "@graph": graph };
 ---
 
 <!-- Global Metadata -->
@@ -20,11 +90,11 @@ const { title, description, image = "/blog-placeholder-1.jpg" } = Astro.props;
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="generator" content={Astro.generator} />
 
-<!-- Font preloads -->
-<!-- Fonts are imported in Layout.astro or global css via @fontsource -->
-
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
+
+<!-- RSS feed autodiscovery -->
+<link rel="alternate" type="application/rss+xml" title={SITE_NAME} href={new URL("/rss.xml", Astro.site)} />
 
 <!-- Primary Meta Tags -->
 <title>{title}</title>
@@ -32,15 +102,26 @@ const { title, description, image = "/blog-placeholder-1.jpg" } = Astro.props;
 <meta name="description" content={description} />
 
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
-<meta property="og:url" content={Astro.url} />
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image, Astro.url)} />
+<meta property="og:image" content={socialImageURL} />
+<meta property="og:site_name" content={SITE_NAME} />
+<meta property="og:locale" content="id_ID" />
+{type === "article" && publishedDate && (
+    <meta property="article:published_time" content={publishedDate.toISOString()} />
+)}
+{type === "article" && updatedDate && (
+    <meta property="article:modified_time" content={updatedDate.toISOString()} />
+)}
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:url" content={canonicalURL} />
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image, Astro.url)} />
+<meta property="twitter:image" content={socialImageURL} />
+
+<!-- Structured data -->
+<script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />

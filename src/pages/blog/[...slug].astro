@@ -14,354 +14,325 @@ type Props = CollectionEntry<"blog">;
 const post = Astro.props;
 const { Content } = await post.render();
 
-const formattedDate = post.data.pubDate.toLocaleDateString("id-ID", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-});
+const fmtDate = (d: Date) =>
+    d.toLocaleDateString("id-ID", { year: "numeric", month: "long", day: "numeric" });
 ---
 
-<Layout title={post.data.title} description={post.data.description}>
-    <article class="post-article">
+<Layout
+    title={`${post.data.title} — Appsecmonarch`}
+    description={post.data.description}
+    image={post.data.heroImage}
+    type="article"
+    publishedDate={post.data.pubDate}
+    updatedDate={post.data.updatedDate}
+>
+    <article class="post">
+        <!-- ══════════ HEADER ══════════ -->
+        <header class="post-head">
+            <div class="post-head-inner">
+                <a href="/blog" class="back-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="2" stroke="currentColor" class="back-arrow" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                    </svg>
+                    Kembali ke blog
+                </a>
 
-        <!-- Tags + meta -->
-        <div class="post-header fade-in-up">
-            <div class="post-tags">
-                {post.data.tags?.map((tag: string) => (
-                    <a href={`/tags/${tag}`} class="tag">#{tag}</a>
-                ))}
+                {post.data.tags?.[0] && <p class="eyebrow">{post.data.tags[0]}</p>}
+
+                <h1 class="post-title">{post.data.title}</h1>
+
+                <p class="post-lede">{post.data.description}</p>
+
+                <div class="post-meta">
+                    <span>Appsecmonarch</span>
+                    <span class="meta-dot">·</span>
+                    <time datetime={post.data.pubDate.toISOString()}>
+                        {fmtDate(post.data.pubDate)}
+                    </time>
+                    {post.data.updatedDate && (
+                        <>
+                            <span class="meta-dot">·</span>
+                            <span>Diperbarui {fmtDate(post.data.updatedDate)}</span>
+                        </>
+                    )}
+                </div>
             </div>
+        </header>
 
-            <h1 class="post-title">{post.data.title}</h1>
-
-            <div class="post-meta">
-                <time datetime={post.data.pubDate.toISOString()}>{formattedDate}</time>
-                <span class="meta-dot">•</span>
-                <span>Oleh Tim Appsecmonarch</span>
-            </div>
-        </div>
-
-        <!-- Hero image -->
+        <!-- ══════════ HERO ══════════ -->
         {post.data.heroImage && (
-            <div class="hero-img-wrap fade-in-up">
-                <img
-                    src={post.data.heroImage}
-                    alt={post.data.title}
-                    class="hero-img"
-                />
+            <div class="hero-wrap">
+                <div class="hero-frame">
+                    <img src={post.data.heroImage} alt={post.data.title} class="hero-img" />
+                </div>
             </div>
         )}
 
-        <!-- Prose content -->
+        <!-- ══════════ ISI ══════════ -->
         <div class="prose-wrap">
             <div class="prose-content">
                 <Content />
             </div>
-        </div>
 
-        <!-- Back link -->
-        <div class="back-wrap">
-            <a href="/blog" class="back-link">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                    stroke-width="2" stroke="currentColor" class="back-arrow" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-                </svg>
-                Kembali ke Blog
-            </a>
+            {post.data.tags && post.data.tags.length > 0 && (
+                <div class="post-tags">
+                    <p class="tags-label">Topik</p>
+                    <div class="tags-row">
+                        {post.data.tags.map((tag: string) => (
+                            <a href={`/tags/${tag}`} class="tag-chip">{tag}</a>
+                        ))}
+                    </div>
+                </div>
+            )}
         </div>
     </article>
 
     <!-- Lightbox -->
     <div id="image-lightbox" class="lightbox">
-        <img id="lightbox-img" alt="Preview" />
+        <img id="lightbox-img" alt="" />
     </div>
 </Layout>
 
 <style>
-    .post-article {
-        max-width: 1280px;
-        margin: 0 auto;
-        padding: 4rem 2.5rem 6rem;
-    }
-    @media (max-width: 640px) { .post-article { padding: 2.5rem 1.5rem 5rem; } }
-
     /* ── Header ── */
-    .post-header {
-        max-width: 768px;
-        margin: 0 auto 3rem;
-        text-align: center;
+    .post-head {
+        background: var(--bg-secondary);
+        border-bottom: 1px solid var(--border);
     }
+    .post-head-inner {
+        max-width: 780px;
+        margin: 0 auto;
+        padding: 48px 40px 56px;
+    }
+    @media (max-width: 640px) { .post-head-inner { padding: 32px 24px 40px; } }
 
-    .post-tags {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
+    .back-link {
+        display: inline-flex;
+        align-items: center;
         gap: 0.5rem;
-        margin-bottom: 1.5rem;
-    }
-    .tag {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.75rem;
-        color: #00d4ff;
-        background: rgba(0, 212, 255, 0.08);
-        padding: 0.25rem 0.75rem;
-        border-radius: 6px;
+        color: var(--accent);
+        font-size: 14px;
+        font-weight: 600;
         text-decoration: none;
-        border: 1px solid rgba(0, 212, 255, 0.2);
-        transition: background 0.2s, color 0.2s;
+        margin-bottom: 28px;
+        transition: gap 0.2s;
     }
-    .tag:hover { background: rgba(0, 212, 255, 0.15); }
-    html:not(.dark) .tag {
-        color: #003377;
-        background: rgba(0, 51, 119, 0.06);
-        border-color: rgba(0, 51, 119, 0.15);
-    }
-    html:not(.dark) .tag:hover { background: rgba(0, 51, 119, 0.12); }
+    .back-link:hover { gap: 0.75rem; }
+    .back-arrow { width: 16px; height: 16px; flex-shrink: 0; transition: transform 0.2s; }
+    .back-link:hover .back-arrow { transform: translateX(-3px); }
 
     .post-title {
-        font-family: "IBM Plex Serif", serif;
-        font-weight: 700;
-        font-size: clamp(2rem, 4.5vw, 3.25rem);
-        line-height: 1.15;
-        color: var(--text);
-        margin-bottom: 1.25rem;
+        font-size: clamp(1.875rem, 4.5vw, 44px);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1.12;
+        margin-bottom: 18px;
     }
-
+    .post-lede {
+        font-size: 17px;
+        color: var(--text-muted);
+        line-height: 1.7;
+        margin-bottom: 24px;
+    }
     .post-meta {
         display: flex;
         align-items: center;
-        justify-content: center;
-        gap: 0.75rem;
-        font-size: 0.9375rem;
-        color: var(--text-muted);
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        font-size: 13.5px;
+        color: var(--text-dim);
     }
-    .meta-dot { opacity: 0.4; }
+    .meta-dot { opacity: 0.5; }
 
-    /* ── Hero image ── */
-    .hero-img-wrap {
-        max-width: 960px;
-        margin: 0 auto 4rem;
+    /* ── Hero ── */
+    .hero-wrap { max-width: 960px; margin: 0 auto; padding: 48px 40px 0; }
+    @media (max-width: 640px) { .hero-wrap { padding: 32px 24px 0; } }
+
+    .hero-frame {
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        background: var(--media-bg);
+        box-shadow: var(--shadow-panel);
     }
     .hero-img {
         width: 100%;
         aspect-ratio: 16/9;
         object-fit: cover;
-        border-radius: 12px;
-        border: 1px solid var(--border);
+        display: block;
         cursor: zoom-in;
     }
 
     /* ── Prose ── */
-    .prose-wrap {
-        max-width: 720px;
-        margin: 0 auto;
-    }
+    .prose-wrap { max-width: 800px; margin: 0 auto; padding: 56px 40px 96px; }
+    @media (max-width: 640px) { .prose-wrap { padding: 40px 24px 64px; } }
 
     .prose-content {
-        font-family: Inter, sans-serif;
-        font-size: 1.0625rem;
+        font-size: 17px;
         line-height: 1.8;
-        color: var(--text);
+        color: var(--text-body);
     }
 
-    /* Prose headings */
     .prose-content :global(h1),
     .prose-content :global(h2),
     .prose-content :global(h3),
     .prose-content :global(h4) {
-        font-family: "IBM Plex Serif", serif;
+        font-family: Syne, sans-serif;
         font-weight: 700;
         color: var(--text);
+        letter-spacing: -0.02em;
+        line-height: 1.25;
         margin-top: 2.5rem;
         margin-bottom: 1rem;
-        line-height: 1.25;
     }
-    .prose-content :global(h1) { font-size: 2rem; }
-    .prose-content :global(h2) { font-size: 1.625rem; }
-    .prose-content :global(h3) { font-size: 1.3rem; }
+    .prose-content :global(h1) { font-size: 32px; }
+    .prose-content :global(h2) { font-size: 26px; }
+    .prose-content :global(h3) { font-size: 21px; }
+    .prose-content :global(h4) { font-size: 18px; }
 
-    /* Prose paragraphs */
-    .prose-content :global(p) {
-        color: var(--text-muted);
-        margin-bottom: 1.5rem;
-    }
+    .prose-content :global(p) { margin-bottom: 1.5rem; }
 
-    /* Prose links */
+    .prose-content :global(strong) { color: var(--text); font-weight: 600; }
+
     .prose-content :global(a) {
-        color: #00d4ff;
+        color: var(--accent);
         text-decoration: none;
-        border-bottom: 1px solid rgba(0, 212, 255, 0.3);
+        border-bottom: 1px solid var(--accent-soft);
         transition: border-color 0.2s;
     }
-    .prose-content :global(a:hover) { border-color: #00d4ff; }
-    html:not(.dark) .prose-content :global(a) {
-        color: #003377;
-        border-bottom-color: rgba(0, 51, 119, 0.3);
-    }
-    html:not(.dark) .prose-content :global(a:hover) { border-color: #003377; }
+    .prose-content :global(a:hover) { border-bottom-color: var(--accent); }
 
-    /* Prose code (inline) */
+    /* Inline code. Monospace survives here because code in a technical article
+       is content, not the terminal styling the brand guide rejects. */
     .prose-content :global(code) {
         font-family: "JetBrains Mono", monospace;
         font-size: 0.875em;
-        background: rgba(0, 212, 255, 0.07);
-        color: #00d4ff;
+        background: var(--accent-soft);
+        color: var(--accent);
         padding: 0.15em 0.4em;
         border-radius: 4px;
-        border: 1px solid rgba(0, 212, 255, 0.12);
-    }
-    html:not(.dark) .prose-content :global(code) {
-        background: rgba(0, 51, 119, 0.06);
-        border-color: rgba(0, 51, 119, 0.12);
     }
 
-    /* Prose code block */
     .prose-content :global(pre) {
-        background: #0d1320;
-        border: 1px solid rgba(0, 212, 255, 0.15);
-        border-radius: 10px;
+        background: var(--media-bg);
+        border: 1px solid var(--border);
+        border-radius: 12px;
         padding: 1.5rem;
         overflow-x: auto;
         margin-bottom: 1.5rem;
     }
+    html.dark .prose-content :global(pre) { border-color: var(--surface-deep-border); }
     .prose-content :global(pre code) {
         background: none;
-        border: none;
+        color: #c9daec;
         padding: 0;
-        color: #c8d6ef;
-        font-size: 0.875rem;
+        font-size: 13.5px;
+        line-height: 1.7;
     }
-    html:not(.dark) .prose-content :global(pre) { background: #1a2235; }
 
-    /* Prose blockquote */
     .prose-content :global(blockquote) {
-        border-left: 3px solid #00d4ff;
-        padding: 0.75rem 1.25rem;
-        margin: 1.5rem 0;
-        background: rgba(0, 212, 255, 0.04);
-        border-radius: 0 8px 8px 0;
+        border-left: 3px solid var(--accent);
+        background: var(--accent-soft);
+        border-radius: 0 10px 10px 0;
+        padding: 1rem 1.375rem;
+        margin: 1.75rem 0;
         color: var(--text-muted);
-        font-style: italic;
     }
-    html:not(.dark) .prose-content :global(blockquote) {
-        border-left-color: #003377;
-        background: rgba(0, 51, 119, 0.04);
-    }
+    .prose-content :global(blockquote p:last-child) { margin-bottom: 0; }
 
-    /* Prose lists */
-    .prose-content :global(ul) {
-        list-style-type: disc;
-        padding-left: 1.5rem;
-        margin-bottom: 1.5rem;
-        color: var(--text-muted);
-    }
+    .prose-content :global(ul),
     .prose-content :global(ol) {
-        list-style-type: decimal;
         padding-left: 1.5rem;
         margin-bottom: 1.5rem;
-        color: var(--text-muted);
     }
-    .prose-content :global(ul ul) { list-style-type: circle; }
-    .prose-content :global(ul ul ul) { list-style-type: square; }
-    .prose-content :global(li) {
-        margin-bottom: 0.5rem;
-        padding-left: 0.25rem;
-    }
-    .prose-content :global(li::marker) { color: #00d4ff; }
-    html:not(.dark) .prose-content :global(li::marker) { color: #003377; }
+    .prose-content :global(ul) { list-style-type: disc; }
+    .prose-content :global(ol) { list-style-type: decimal; }
+    .prose-content :global(ul ul) { list-style-type: circle; margin-bottom: 0; }
+    .prose-content :global(li) { margin-bottom: 0.5rem; padding-left: 0.25rem; }
+    .prose-content :global(li::marker) { color: var(--accent); }
 
-    /* Prose tables */
+    /* Tables scroll inside their own wrapper so a wide one never pushes the
+       article into horizontal scroll. */
     .prose-content :global(table) {
+        display: block;
         width: 100%;
+        overflow-x: auto;
         border-collapse: collapse;
         margin-bottom: 1.75rem;
-        font-size: 0.9375rem;
-        overflow-x: auto;
-        display: block;
+        font-size: 15px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
     }
     .prose-content :global(thead) {
-        background: rgba(0, 212, 255, 0.07);
-        border-bottom: 2px solid rgba(0, 212, 255, 0.25);
-    }
-    html:not(.dark) .prose-content :global(thead) {
-        background: rgba(0, 51, 119, 0.06);
-        border-bottom-color: rgba(0, 51, 119, 0.2);
+        background: var(--accent-soft);
+        border-bottom: 1px solid var(--border);
     }
     .prose-content :global(th) {
         padding: 0.875rem 1.25rem;
         text-align: left;
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.8125rem;
         font-weight: 600;
-        color: #00d4ff;
-        letter-spacing: 0.03em;
+        font-size: 12.5px;
+        color: var(--accent);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
         white-space: nowrap;
     }
-    html:not(.dark) .prose-content :global(th) { color: #003377; }
     .prose-content :global(td) {
         padding: 0.875rem 1.25rem;
         color: var(--text-muted);
         border-bottom: 1px solid var(--border);
         vertical-align: top;
-        line-height: 1.6;
+        line-height: 1.65;
     }
     .prose-content :global(tr:last-child td) { border-bottom: none; }
-    .prose-content :global(tr:hover td) {
-        background: rgba(0, 212, 255, 0.03);
-    }
-    html:not(.dark) .prose-content :global(tr:hover td) {
-        background: rgba(0, 51, 119, 0.03);
-    }
 
-    /* Prose images */
     .prose-content :global(img) {
         width: 100%;
-        border-radius: 10px;
+        border-radius: 12px;
         border: 1px solid var(--border);
         cursor: zoom-in;
-        margin: 1.5rem 0;
+        margin: 1.75rem 0;
     }
 
-    /* Prose hr */
     .prose-content :global(hr) {
         border: none;
         border-top: 1px solid var(--border);
         margin: 2.5rem 0;
     }
 
-    /* ── Back link ── */
-    .back-wrap {
-        max-width: 720px;
-        margin: 3rem auto 0;
+    /* ── Tag footer ── */
+    .post-tags {
+        margin-top: 3rem;
         padding-top: 2rem;
         border-top: 1px solid var(--border);
     }
-
-    .back-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        color: #00d4ff;
-        font-weight: 500;
-        font-size: 0.9375rem;
+    .tags-label {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-dim);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+    }
+    .tags-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag-chip {
+        background: var(--accent-soft);
+        color: var(--accent);
+        border-radius: 6px;
+        padding: 5px 12px;
+        font-size: 12.5px;
+        font-weight: 600;
         text-decoration: none;
-        transition: gap 0.2s;
+        transition: background 0.2s;
     }
-    .back-link:hover { gap: 0.75rem; }
-    html:not(.dark) .back-link { color: #003377; }
-
-    .back-arrow {
-        width: 18px; height: 18px;
-        transition: transform 0.2s;
-        flex-shrink: 0;
-    }
-    .back-link:hover .back-arrow { transform: translateX(-3px); }
+    .tag-chip:hover { background: var(--accent); color: var(--accent-contrast); }
 
     /* ── Lightbox ── */
     .lightbox {
         position: fixed;
         inset: 0;
-        background: rgba(0, 0, 0, 0.9);
+        background: rgba(0, 12, 31, 0.92);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -374,49 +345,33 @@ const formattedDate = post.data.pubDate.toLocaleDateString("id-ID", {
     .lightbox img {
         max-width: 90vw;
         max-height: 90vh;
-        border-radius: 10px;
+        border-radius: 12px;
         box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
         cursor: zoom-out;
     }
 </style>
 
 <script>
-    // Lightbox
     const lightbox = document.getElementById('image-lightbox') as HTMLElement;
     const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
-    const images = document.querySelectorAll<HTMLImageElement>('article img');
 
-    images.forEach((img) => {
+    function closeLightbox() {
+        lightbox.classList.remove('open');
+        lightboxImg.src = '';
+        document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll<HTMLImageElement>('article img').forEach((img) => {
         img.addEventListener('click', () => {
             lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt;
             lightbox.classList.add('open');
             document.body.style.overflow = 'hidden';
         });
     });
 
-    lightbox.addEventListener('click', () => {
-        lightbox.classList.remove('open');
-        lightboxImg.src = '';
-        document.body.style.overflow = '';
-    });
-
+    lightbox.addEventListener('click', closeLightbox);
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            lightbox.classList.remove('open');
-            lightboxImg.src = '';
-            document.body.style.overflow = '';
-        }
+        if (e.key === 'Escape') closeLightbox();
     });
-
-    // Scroll fade-in
-    const fadeEls = document.querySelectorAll('.fade-in-up');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                (entry.target as HTMLElement).classList.add('visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0 });
-    fadeEls.forEach((el) => observer.observe(el));
 </script>
