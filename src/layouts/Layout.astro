@@ -3,31 +3,47 @@ import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 
-import "@fontsource/ibm-plex-serif/300.css";
-import "@fontsource/ibm-plex-serif/400.css";
-import "@fontsource/ibm-plex-serif/500.css";
-import "@fontsource/ibm-plex-serif/600.css";
-import "@fontsource/ibm-plex-serif/700.css";
-import "@fontsource/inter/300.css";
-import "@fontsource/inter/400.css";
-import "@fontsource/inter/500.css";
-import "@fontsource/inter/600.css";
-import "@fontsource/inter/700.css";
+// Syne — headings / wordmark. DM Sans — body / UI.
+import "@fontsource/syne/400.css";
+import "@fontsource/syne/500.css";
+import "@fontsource/syne/600.css";
+import "@fontsource/syne/700.css";
+import "@fontsource/syne/800.css";
+import "@fontsource/dm-sans/300.css";
+import "@fontsource/dm-sans/400.css";
+import "@fontsource/dm-sans/500.css";
+import "@fontsource/dm-sans/600.css";
+import "@fontsource/dm-sans/700.css";
+// Retained for code blocks in article prose only — not for UI labels.
 import "@fontsource/jetbrains-mono/400.css";
 import "@fontsource/jetbrains-mono/500.css";
 
 interface Props {
     title: string;
     description: string;
+    /** Absolute-from-root path for the Open Graph / Twitter card image.
+        Omit to fall back to the brand default in BaseHead. */
+    image?: string;
+    /** 'article' on post pages drives og:type + BlogPosting/Breadcrumb schema. */
+    type?: "website" | "article";
+    publishedDate?: Date;
+    updatedDate?: Date;
 }
 
-const { title, description } = Astro.props;
+const { title, description, image, type, publishedDate, updatedDate } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="id">
     <head>
-        <BaseHead title={title} description={description} />
+        <BaseHead
+            title={title}
+            description={description}
+            image={image}
+            type={type}
+            publishedDate={publishedDate}
+            updatedDate={updatedDate}
+        />
         <script is:inline>
             (function () {
                 const stored = localStorage.getItem('theme');
@@ -40,7 +56,7 @@ const { title, description } = Astro.props;
     </head>
     <body class="font-sans antialiased transition-colors duration-300">
         <Header />
-        <main class="pt-20">
+        <main>
             <slot />
         </main>
         <Footer />
@@ -48,31 +64,112 @@ const { title, description } = Astro.props;
 </html>
 
 <style is:global>
+    /* ═══════════════════════════════════════════════════════════════
+       DESIGN TOKENS
+       Light values are taken verbatim from the Claude Design handoff
+       (AppSecMonarch Blog.dc.html). Dark values are derived from the
+       navy surfaces that same design specifies (its philosophy band,
+       footer, and contact panel), not invented from scratch.
+
+       Read these variables. Never hardcode a brand color.
+       ═══════════════════════════════════════════════════════════════ */
     :root {
-        --bg: #f8fafc;
-        --bg-secondary: #f1f5f9;
+        /* Surfaces */
+        --bg: #ffffff;
+        --bg-secondary: #f4f8fd;
         --card-bg: #ffffff;
-        --text: #0f172a;
-        --text-muted: #4b5563;
-        --text-dim: #9ca3af;
-        --border: #e5e7eb;
-        --header-bg-scroll: rgba(248, 250, 252, 0.95);
+        --header-bg-scroll: rgba(255, 255, 255, 0.92);
+
+        /* Text */
+        --text: #001840;        /* headings / high-emphasis */
+        --text-body: #3a4658;   /* default body copy */
+        --text-muted: #5a6b82;  /* secondary copy */
+        --text-dim: #8c9bb5;    /* meta, timestamps */
+
+        /* Lines */
+        --border: #e7edf5;
+        --border-strong: #dce5f0;
+
+        /* Accent */
+        --accent: #0070d0;
+        --accent-hover: #005cb0;
+        --accent-soft: #e8f3ff;      /* chip / icon-tile background */
+        --accent-contrast: #ffffff;  /* text on an --accent fill */
+
+        /* Deep navy band — inverted sections (philosophy, footer, panels) */
+        --surface-deep: #001840;
+        --surface-deep-text: #ffffff;
+        --surface-deep-muted: #9fb8d4;
+        --surface-deep-dim: #7fa0c4;
+        --surface-deep-label: #3b7fb5;
+        --surface-deep-border: rgba(255, 255, 255, 0.12);
+        --surface-deep-card: rgba(255, 255, 255, 0.05);
+
+        /* Media placeholder behind article images */
+        --media-bg: #0a1b33;
+
+        /* Feedback */
+        --danger: #e05555;
+
+        /* Shiki syntax highlighting (theme: 'css-variables' in astro.config).
+           Shiki writes these as an inline style on <pre>, which outranks any
+           scoped CSS — so these variables, not a `pre` rule, are what actually
+           colors a code block. --media-bg is dark navy in both themes, so one
+           palette serves both; tuned for legibility on that navy. */
+        --astro-code-background: var(--media-bg);
+        --astro-code-foreground: #c9daec;
+        --astro-code-token-comment: #7e93b3;
+        --astro-code-token-keyword: #4da3f0;
+        --astro-code-token-string: #f0b872;
+        --astro-code-token-string-expression: #f0b872;
+        --astro-code-token-constant: #7fd1a6;
+        --astro-code-token-function: #a5c8ef;
+        --astro-code-token-parameter: #c9daec;
+        --astro-code-token-punctuation: #8fa3bf;
+        --astro-code-token-operator: #8fa3bf;
+        --astro-code-token-link: #4da3f0;
+
+        /* Elevation */
+        --shadow-card: 0 12px 30px rgba(0, 24, 64, 0.07);
+        --shadow-card-hover: 0 14px 34px rgba(0, 24, 64, 0.09);
+        --shadow-panel: 0 24px 60px rgba(0, 24, 64, 0.16);
     }
 
     html.dark {
-        --bg: #0a0e1a;
-        --bg-secondary: #080c15;
-        --card-bg: #111827;
-        --text: #e2e8f0;
-        --text-muted: #8b9cbb;
-        --text-dim: #4a5568;
-        --border: rgba(255, 255, 255, 0.06);
-        --header-bg-scroll: rgba(10, 14, 26, 0.95);
+        --bg: #001840;
+        --bg-secondary: #001233;
+        --card-bg: #06224f;
+        --header-bg-scroll: rgba(0, 24, 64, 0.92);
+
+        --text: #ffffff;
+        --text-body: #c9daec;
+        --text-muted: #9fb8d4;
+        --text-dim: #7fa0c4;
+
+        --border: rgba(255, 255, 255, 0.12);
+        --border-strong: rgba(255, 255, 255, 0.2);
+
+        /* #0070d0 only reaches ~3.8:1 on navy — too low for body text.
+           Lightened to hold ~6.5:1 while staying in the brand's blue. */
+        --accent: #4da3f0;
+        --accent-hover: #7cbef7;
+        --accent-soft: rgba(77, 163, 240, 0.14);
+        --accent-contrast: #001840;
+
+        /* Lifted, or inverted bands would disappear into --bg. */
+        --surface-deep: #06224f;
+        --surface-deep-card: rgba(255, 255, 255, 0.06);
+
+        --media-bg: #000c1f;
+
+        --shadow-card: 0 12px 30px rgba(0, 0, 0, 0.3);
+        --shadow-card-hover: 0 14px 34px rgba(0, 0, 0, 0.38);
+        --shadow-panel: 0 24px 60px rgba(0, 0, 0, 0.45);
     }
 
     body {
         background: var(--bg);
-        color: var(--text);
+        color: var(--text-body);
     }
 
     @keyframes fadeInUp {
@@ -106,16 +203,45 @@ const { title, description } = Astro.props;
         transform: translateY(0);
     }
 
-    /* Mono font utility */
-    .font-mono { font-family: "JetBrains Mono", "Fira Code", monospace; }
+    /* Shared layout container — 1180px per the design handoff. */
+    .container {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 40px;
+    }
+    @media (max-width: 640px) {
+        .container { padding: 0 24px; }
+    }
 
-    /* Section comment label */
-    .code-label {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.7rem;
-        color: #00d4ff;
-        letter-spacing: 0.1em;
-        opacity: 0.7;
-        margin-bottom: 0.75rem;
+    /* Eyebrow — the small uppercase label above a heading.
+       Replaces the old monospace `// SECTION_NAME` terminal motif, which
+       the brand guide explicitly rejects ("visual stereotip hacker"). */
+    .eyebrow {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--accent);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+    }
+
+    /* Eyebrow variant for use on a --surface-deep band. */
+    .eyebrow-on-deep {
+        color: var(--surface-deep-label);
+        letter-spacing: 0.18em;
+    }
+
+    /* Short accent rule paired with an eyebrow. */
+    .eyebrow-rule {
+        width: 26px;
+        height: 2px;
+        background: var(--accent);
+        flex-shrink: 0;
+    }
+
+    h1, h2, h3, h4 {
+        font-family: Syne, sans-serif;
+        color: var(--text);
+        letter-spacing: -0.02em;
     }
 </style>

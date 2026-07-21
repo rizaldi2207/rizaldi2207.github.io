@@ -1,52 +1,129 @@
 ---
-const today = new Date();
+const year = new Date().getFullYear();
+
+const navLinks = [
+    { href: "/", label: "Beranda" },
+    { href: "/blog", label: "Blog" },
+    { href: "/about", label: "Tentang" },
+    { href: "/contact", label: "Hubungi" },
+];
+
 const socials = [
     { href: "https://www.instagram.com/appsecmonarch/", label: "Instagram" },
-    { href: "#", label: "GitHub" },
-    { href: "#", label: "LinkedIn" },
-    { href: "#", label: "Discord" },
+    // { href: "https://linkedin.com/company/appsecmonarch", label: "LinkedIn" },
+    // { href: "https://github.com/appsecmonarch", label: "GitHub" },
+    { href: "mailto:appsecmonarch@gmail.com", label: "appsecmonarch@gmail.com" },
 ];
 ---
 
 <footer class="site-footer">
     <div class="footer-inner">
-        <span class="footer-copy">
-            &copy; {today.getFullYear()} Appsecmonarch. All rights reserved.
-        </span>
-        <div class="footer-links">
-            {socials.map(({ href, label }) => (
-                <a href={href} class="footer-link">{label}</a>
-            ))}
+        <div class="footer-top">
+            <div class="footer-brand">
+                <div class="brand-row">
+                    <img src="/assets/logo-white.png" alt="" class="brand-mark" aria-hidden="true" />
+                    <span class="brand-name">appsecmonarch</span>
+                </div>
+                <p class="brand-blurb">
+                    Belajar keamanan aplikasi, satu konsep dalam satu waktu. Learn · share · secure.
+                </p>
+            </div>
+
+            <div class="footer-cols">
+                <div class="footer-col">
+                    <p class="col-label">Jelajah</p>
+                    <div class="col-links">
+                        {navLinks.map(({ href, label }) => (
+                            <a href={href} class="col-link">{label}</a>
+                        ))}
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <p class="col-label">Terhubung</p>
+                    <div class="col-links">
+                        {socials.map(({ href, label }) => (
+                            <a href={href} class="col-link">{label}</a>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p class="footer-meta">© {year} appsecmonarch · Application Security · Indonesia</p>
+            <p class="footer-meta footer-meta-tagline">learn · share · secure</p>
         </div>
     </div>
 </footer>
 
 <style>
-    .site-footer {
-        border-top: 1px solid var(--border);
-        margin-top: 5rem;
-        padding: 2.5rem;
-    }
+    /* The footer is an inverted band: it stays navy in both themes, so it reads
+       from the --surface-deep scale rather than the page --bg/--text scale. */
+    .site-footer { background: var(--surface-deep); }
+
     .footer-inner {
-        max-width: 1280px;
+        max-width: 1180px;
         margin: 0 auto;
+        padding: 64px 40px 40px;
+    }
+    @media (max-width: 640px) { .footer-inner { padding: 48px 24px 32px; } }
+
+    .footer-top {
         display: flex;
-        flex-wrap: wrap;
-        align-items: center;
         justify-content: space-between;
-        gap: 1rem;
+        gap: 60px;
+        padding-bottom: 44px;
+        border-bottom: 1px solid var(--surface-deep-border);
     }
-    .footer-copy {
-        font-size: 0.875rem;
-        color: var(--text-muted);
+    @media (max-width: 900px) { .footer-top { flex-direction: column; gap: 40px; } }
+
+    /* ── Brand ── */
+    .footer-brand { max-width: 340px; }
+    .brand-row { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+    .brand-mark { width: 34px; height: 31px; object-fit: contain; flex-shrink: 0; }
+    .brand-name {
+        font-family: Syne, sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--surface-deep-text);
+        letter-spacing: -0.02em;
     }
-    .footer-links { display: flex; gap: 1.5rem; }
-    .footer-link {
-        font-size: 0.875rem;
-        color: var(--text-muted);
+    .brand-blurb {
+        font-size: 14px;
+        color: var(--surface-deep-dim);
+        line-height: 1.7;
+    }
+
+    /* ── Columns ── */
+    .footer-cols { display: flex; gap: 72px; }
+    @media (max-width: 640px) { .footer-cols { gap: 40px; } }
+
+    .col-label {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--surface-deep-label);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        margin-bottom: 18px;
+    }
+    .col-links { display: flex; flex-direction: column; gap: 12px; }
+    .col-link {
+        font-size: 14.5px;
+        color: var(--surface-deep-muted);
         text-decoration: none;
         transition: color 0.2s;
     }
-    .footer-link:hover { color: #00d4ff; }
-    html:not(.dark) .footer-link:hover { color: #003377; }
+    .col-link:hover { color: var(--surface-deep-text); }
+
+    /* ── Bottom ── */
+    .footer-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        padding-top: 26px;
+        flex-wrap: wrap;
+    }
+    .footer-meta { font-size: 13px; color: #5e7699; }
+    .footer-meta-tagline { letter-spacing: 0.08em; }
 </style>

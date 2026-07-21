@@ -1,6 +1,6 @@
 ---
 title: 'Error Handling Bukan Opsional — Ini Kunci Mencegah Leak di Aplikasimu'
-description: 'Penanganan error yang asal-asalan bisa jadi pintu masuk terbesar untuk data leak. Pelajari cara menulis error handling yang aman, dari stack trace, logging sensitif, sampai unhandled promise.'
+description: 'Error handling asal-asalan bisa jadi pintu masuk data leak. Pelajari cara menulisnya dengan aman: stack trace, logging sensitif, dan unhandled promise.'
 pubDate: '2026-04-28'
 heroImage: '/assets/hero-error-handling.png'
 tags: ['backend', 'security', 'nodejs', 'best-practices']

@@ -5,155 +5,124 @@ import { getCollection } from "astro:content";
 const allPosts = await getCollection("blog");
 
 const tagCounts = allPosts.reduce((acc, post) => {
-    const tags = post.data.tags || [];
-    tags.forEach((tag) => {
+    (post.data.tags ?? []).forEach((tag) => {
         acc[tag] = (acc[tag] || 0) + 1;
     });
     return acc;
 }, {} as Record<string, number>);
 
-const sortedTags = Object.entries(tagCounts).sort((a, b) =>
-    a[0].localeCompare(b[0])
+// Busiest topics first, then alphabetical — a flat A–Z buries the ones with
+// the most to read.
+const sortedTags = Object.entries(tagCounts).sort(
+    (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
 );
 ---
 
 <Layout
-    title="Tags — Appsecmonarch"
-    description="Jelajahi artikel berdasarkan topik dan tags."
+    title="Topik — Appsecmonarch"
+    description="Jelajahi tulisan berdasarkan topik yang kamu minati."
 >
-    <section class="tags-section">
-        <div class="tags-header fade-in-up">
-            <div class="code-label">// EXPLORE_TAGS</div>
-            <h1 class="tags-heading">
-                Jelajahi <em class="em-accent">Tags</em>
-            </h1>
-            <p class="tags-sub">
-                Temukan artikel berdasarkan topik yang kamu minati.
+    <section class="tags-hero">
+        <div class="tags-hero-inner">
+            <p class="eyebrow">Topik</p>
+            <h1 class="hero-heading">Jelajahi berdasarkan topik</h1>
+            <p class="hero-sub">
+                Temukan tulisan sesuai yang sedang kamu pelajari hari ini.
             </p>
         </div>
+    </section>
 
+    <section class="tags-body fade-in-up">
         {sortedTags.length > 0 ? (
-            <div class="tags-grid fade-in-up">
+            <div class="tags-grid">
                 {sortedTags.map(([tag, count]) => (
                     <a href={`/tags/${tag}`} class="tag-card">
-                        <span class="tag-name">#{tag}</span>
+                        <span class="tag-name">{tag}</span>
                         <span class="tag-count">{count}</span>
                     </a>
                 ))}
             </div>
         ) : (
-            <p class="empty-msg">Belum ada tags tersedia.</p>
+            <div class="empty-state">
+                <p class="empty-title">Belum ada topik.</p>
+                <p class="empty-sub">Tag akan muncul di sini setelah ada tulisan.</p>
+            </div>
         )}
     </section>
 </Layout>
 
 <style>
-    .tags-section {
-        max-width: 1280px;
-        margin: 0 auto;
-        padding: 4rem 2.5rem 8rem;
+    .tags-hero {
+        background: var(--bg-secondary);
+        border-bottom: 1px solid var(--border);
     }
-    @media (max-width: 640px) { .tags-section { padding: 3rem 1.5rem 6rem; } }
+    .tags-hero-inner { max-width: 1180px; margin: 0 auto; padding: 72px 40px 60px; }
+    @media (max-width: 640px) { .tags-hero-inner { padding: 48px 24px 40px; } }
 
-    .code-label {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.7rem;
-        color: #00d4ff;
-        letter-spacing: 0.1em;
-        opacity: 0.7;
-        margin-bottom: 1rem;
-    }
-
-    .tags-heading {
-        font-family: "IBM Plex Serif", serif;
-        font-weight: 700;
-        font-size: clamp(2.5rem, 5vw, 3.75rem);
+    .hero-heading {
+        font-size: clamp(2rem, 5vw, 48px);
+        font-weight: 800;
+        letter-spacing: -0.03em;
         line-height: 1.1;
-        color: var(--text);
-        margin-bottom: 1.25rem;
+        margin-bottom: 18px;
     }
+    .hero-sub { font-size: 17px; color: var(--text-muted); line-height: 1.7; max-width: 640px; }
 
-    .em-accent { font-style: italic; color: #00d4ff; }
-    html:not(.dark) .em-accent { color: #003377; }
+    .tags-body { max-width: 1180px; margin: 0 auto; padding: 56px 40px 96px; }
+    @media (max-width: 640px) { .tags-body { padding: 40px 24px 64px; } }
 
-    .tags-sub {
-        font-size: 1.0625rem;
-        color: var(--text-muted);
-        max-width: 480px;
-        line-height: 1.7;
-        margin-bottom: 3rem;
-    }
-
-    .tags-header { margin-bottom: 3rem; }
-
-    /* Tags grid */
     .tags-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.875rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 16px;
     }
 
     .tag-card {
-        display: inline-flex;
+        display: flex;
         align-items: center;
-        gap: 0.625rem;
-        padding: 0.5rem 1rem;
-        background: var(--bg-secondary);
+        justify-content: space-between;
+        gap: 12px;
+        background: var(--card-bg);
         border: 1px solid var(--border);
-        border-radius: 8px;
+        border-radius: 12px;
+        padding: 20px 22px;
         text-decoration: none;
-        transition: all 0.2s ease;
+        transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
     }
     .tag-card:hover {
-        border-color: #00d4ff;
-        background: rgba(0, 212, 255, 0.06);
+        border-color: #b8d3ef;
+        box-shadow: var(--shadow-card);
+        transform: translateY(-2px);
     }
-    html:not(.dark) .tag-card:hover {
-        border-color: #003377;
-        background: rgba(0, 51, 119, 0.06);
-    }
+    html.dark .tag-card:hover { border-color: var(--accent); }
 
     .tag-name {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.875rem;
+        font-family: Syne, sans-serif;
+        font-size: 16px;
+        font-weight: 700;
         color: var(--text);
+        letter-spacing: -0.01em;
         transition: color 0.2s;
     }
-    .tag-card:hover .tag-name { color: #00d4ff; }
-    html:not(.dark) .tag-card:hover .tag-name { color: #003377; }
+    .tag-card:hover .tag-name { color: var(--accent); }
 
     .tag-count {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 22px;
-        height: 22px;
-        padding: 0 6px;
-        background: rgba(0, 212, 255, 0.1);
-        color: #00d4ff;
-        border-radius: 20px;
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.7rem;
+        font-size: 12px;
         font-weight: 600;
-        transition: all 0.2s;
-    }
-    html:not(.dark) .tag-count {
-        background: rgba(0, 51, 119, 0.08);
-        color: #003377;
-    }
-    .tag-card:hover .tag-count {
-        background: #00d4ff;
-        color: #0a0e1a;
-    }
-    html:not(.dark) .tag-card:hover .tag-count {
-        background: #003377;
-        color: #fff;
+        color: var(--accent);
+        background: var(--accent-soft);
+        border-radius: 6px;
+        padding: 3px 9px;
+        flex-shrink: 0;
     }
 
-    .empty-msg {
-        font-size: 1rem;
-        color: var(--text-muted);
+    .empty-state { text-align: center; padding: 4rem 0; }
+    .empty-title {
+        font-family: Syne, sans-serif;
+        font-size: 1.125rem; font-weight: 700;
+        color: var(--text); margin-bottom: 0.5rem;
     }
+    .empty-sub { font-size: 0.9375rem; color: var(--text-muted); }
 </style>
 
 <script>
